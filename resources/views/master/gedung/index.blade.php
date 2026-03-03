@@ -27,7 +27,7 @@
 </style>
 
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-5" style="flex-wrap: wrap">
         <div>
             <h2 class="fw-bold mb-1">🏢 Master Gedung</h2>
             <nav aria-label="breadcrumb">

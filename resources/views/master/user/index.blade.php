@@ -17,10 +17,11 @@
     .badge-it { background: rgba(52, 152, 219, 0.1); color: #3498db; }
     .badge-umum { background: rgba(149, 165, 166, 0.1); color: #7f8c8d; }
     .action-icon { width: 35px; height: 35px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; transition: all 0.2s; border: 1px solid #eee; }
+    /* @media (max-width:) */
 </style>
 
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center  mb-5" style="flex-wrap:wrap;">
         <div>
             <h2 class="fw-bold mb-1">👥 Kelola User</h2>
             <nav aria-label="breadcrumb">
@@ -30,7 +31,7 @@
                 </ol>
             </nav>
         </div>
-        <button class="btn btn-gradient-user px-4 py-2 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <button id="btnAdd" class="btn btn-gradient-user px-4 my-2 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
             <i class="fa-solid fa-user-plus me-2"></i> Tambah User Baru
         </button>
     </div>

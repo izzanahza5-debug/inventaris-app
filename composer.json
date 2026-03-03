@@ -5,7 +5,9 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.1",
+        "barryvdh/laravel-dompdf": "^2.1",
+        "maatwebsite/excel": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
@@ -52,11 +54,14 @@
             "dont-discover": []
         }
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
+"config": {
+    "platform": {
+        "php": "8.1.34"
     },
+    "platform-check": false,
+    "optimize-autoloader": true,
+    "sort-packages": true
+},
     "minimum-stability": "dev",
     "prefer-stable": true
 }

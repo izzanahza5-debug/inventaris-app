@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BarangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
@@ -30,6 +31,9 @@ Route::resource('user', UserController::class);
 Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
+Route::get('/barang/export-pdf', [BarangController::class, 'exportPdf'])->name('barang.export-pdf');
+Route::get('/barang/export-excel', [BarangController::class, 'exportExcel'])->name('barang.export-excel');
+
 // Route Kelola Barang & Laporan (Bisa diakses semua role)
-Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+Route::resource('barang', BarangController::class);
 Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');

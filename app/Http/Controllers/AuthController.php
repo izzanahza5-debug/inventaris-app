@@ -31,12 +31,7 @@ public function login(Request $request)
         $user = Auth::user();
 
         // 3. Logika Pengalihan Berdasarkan Role (Opsional jika ingin dashboard berbeda)
-        if ($user->role !== 'admin'){
-
-            return redirect()->intended('master/jenjang')->with('success', "Selamat datang kembali, {$user->name}! Anda masuk sebagai " . ucfirst($user->role));
-        }else{
-            return redirect()->intended('user')->with('success', "Selamat datang kembali, {$user->name}! Anda masuk sebagai " . ucfirst($user->role));
-        }
+            return redirect()->intended('dashboard')->with('success', "Selamat datang kembali, {$user->name}! Anda masuk sebagai " . ucfirst($user->role));
         // Jika semua role masuk ke dashboard yang sama, cukup redirect()->intended()
         
     }
