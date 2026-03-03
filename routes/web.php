@@ -3,46 +3,33 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\MasterController;
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Master\JenjangController;
+use App\Http\Controllers\Master\GedungController;
+use App\Http\Controllers\Master\KategoriController;
+use App\Http\Controllers\Master\SumberDanaController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-
-// Route Login
-Route::get('/', [AuthController::class, 'showLogin']);
-Route::post('/login', [AuthController::class, 'login']);
+// Halaman Login
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login') ->middleware('redirectIfLogin');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    
-    // 1. Menu Kelola User (Hanya Admin)
-    Route::group(['middleware' => 'checkRole:admin'], function () {
-        Route::resource('users', UserController::class);
-    });
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // 2. Menu Master (Dropdown)
-    Route::prefix('master')->group(function () {
-        Route::resource('jenjang', MasterJenjangController::class);
-        Route::resource('kategori', MasterKategoriController::class);
-        Route::resource('gedung', MasterGedungController::class);
-        Route::resource('sumber-dana', MasterSumberDanaController::class); // Master Data Pembelian
-    });
-
-    // 3. Menu Laporan / Rekap
-    Route::get('/laporan', [LaporanController::class, 'index']);
-
-    // 4. Menu Kelola Barang
-    Route::resource('barang', BarangController::class);
+// Route Group untuk Master Data (Bisa diakses Admin, IT, Umum)
+Route::prefix('master')->name('master.')->group(function () {
+    Route::resource('jenjang', JenjangController::class);
+    Route::resource('gedung', GedungController::class);
+    Route::resource('kategori', KategoriController::class);
+    Route::resource('sumber-dana', SumberDanaController::class);
 });
+
+// Route Khusus Admin (Kelola User)
+// Kita akan buat middleware 'role:admin' nanti
+Route::resource('user', UserController::class);
+Route::middleware(['auth', 'role:admin'])->group(function () {
+});
+
+// Route Kelola Barang & Laporan (Bisa diakses semua role)
+Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
