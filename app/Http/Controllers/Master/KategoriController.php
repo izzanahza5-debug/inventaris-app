@@ -11,14 +11,14 @@ class KategoriController extends Controller
 {
     public function index()
     {
-        $kategoris = Kategori::latest()->get();
+        $kategoris = Kategori::latest()->paginate(5);
         return view('master.kategori.index', compact('kategoris'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'kode_kategori' => 'required|unique:kategoris,kode_kategori|max:5',
+            'kode_kategori' => 'required|unique:kategoris,kode_kategori|max:3',
             'nama_kategori' => 'required|string|max:255',
         ]);
 

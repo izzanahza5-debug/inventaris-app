@@ -11,14 +11,14 @@ class GedungController extends Controller
 {
     public function index()
     {
-        $gedungs = Gedung::latest()->get();
+        $gedungs = Gedung::latest()->paginate(5);
         return view('master.gedung.index', compact('gedungs'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'kode_gedung' => 'required|unique:gedungs,kode_gedung',
+            'kode_gedung' => 'required|unique:gedungs,kode_gedung|max:3',
             'nama_gedung' => 'required|string|max:255',
         ]);
 
@@ -57,6 +57,9 @@ class GedungController extends Controller
 
     public function destroy(Gedung $gedung)
     {
+        if($gedung->ruangans->count() > 0){
+            return back()->with('error', 'Gedung tidak bisa dihapus karena sudah memiliki ruangan di dalamnya!');
+        }
         $gedung->delete();
         return back()->with('success', 'Gedung berhasil dihapus!');
     }

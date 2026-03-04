@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,11 +11,15 @@ class UserController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role !== 'admin') {
-        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
-    }
-        $users = User::latest()->get();
-        return view('master.user.index', compact('users'));
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
+        $roles = Role::all();
+        $users = User::with('role')
+            ->where('id', '!=', auth()->id())
+            ->latest()
+            ->paginate(5);
+        return view('master.user.index', compact('users','roles'));
     }
 
     public function store(Request $request)
@@ -37,14 +42,14 @@ class UserController extends Controller
     }
 
     public function edit($slug)
-    {   
+    {
         $user = User::where('name', $slug)->firstOrFail();
 
         return view('master.user.edit', compact('user'));
     }
 
     public function update(Request $request, $slug)
-    {   
+    {
         $user = User::where('name', $slug)->firstOrFail();
         $rules = [
             'name' => 'required|string|max:255',
@@ -76,7 +81,7 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Anda tidak bisa menghapus akun sendiri!');
         }
-        
+
         $user->delete();
         return back()->with('success', 'User berhasil dihapus!');
     }

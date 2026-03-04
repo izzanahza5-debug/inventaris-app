@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="ms-auto my-2">
-            <a href="{{ route('barang.edit', $barang->id) }}" class="btn btn-primary text-white px-4 rounded-pill fw-bold">
+            <a href="{{ route('barang.edit', $barang->nama_barang) }}" class="btn btn-primary text-white px-4 rounded-pill fw-bold">
                 <i class="fa-solid fa-pen-to-square me-2"></i> Edit Data
             </a>
         </div>

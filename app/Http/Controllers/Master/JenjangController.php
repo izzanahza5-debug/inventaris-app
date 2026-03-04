@@ -11,14 +11,14 @@ class JenjangController extends Controller
 {
     public function index()
     {
-        $jenjangs = Jenjang::latest()->get();
+        $jenjangs = Jenjang::latest()->paginate(5);
         return view('master.jenjang.index', compact('jenjangs'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'kode_jenjang' => 'required|unique:jenjangs,kode_jenjang',
+            'kode_jenjang' => 'required|unique:jenjangs,kode_jenjang|max:3',
             'nama_jenjang' => 'required',
         ]);
 

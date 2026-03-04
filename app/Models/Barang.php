@@ -14,11 +14,43 @@ class Barang extends Model
         'tanggal_perolehan' => 'date',
     ];
 
-    public function user() { return $this->belongsTo(User::class); }
-    public function jenjang() { return $this->belongsTo(Jenjang::class); }
-    public function kategori() { return $this->belongsTo(Kategori::class); }
-    public function gedung() { return $this->belongsTo(Gedung::class); }
-    public function SumberDana() { return $this->belongsTo(SumberDana::class); }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function jenjang()
+    {
+        return $this->belongsTo(Jenjang::class);
+    }
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
+    public function gedung()
+    {
+        return $this->belongsTo(Gedung::class);
+    }
+    public function SumberDana()
+    {
+        return $this->belongsTo(SumberDana::class);
+    }
+
+    // app/Models/Barang.php
+
+    public function scopeDataByRole($query)
+    {
+        $user = auth()->user();
+
+        // Jika admin, tampilkan semua tanpa filter
+        if ($user->role === 'admin') {
+            return $query;
+        }
+
+        // Jika bukan admin, cari barang yang pemiliknya punya role sama dengan user login
+        return $query->whereHas('user', function ($q) use ($user) {
+            $q->where('role_id', $user->role_id);
+        });
+    }
 
     protected static function boot()
     {
@@ -32,19 +64,18 @@ class Barang extends Model
             $kodeJenjang = $barang->jenjang->kode_jenjang;
             $kodeKategori = $barang->kategori->kode_kategori;
             $gedung = $barang->gedung->kode_gedung;
+            $sumber = $barang->sumberDana->kode_sumber;
 
             // 3. Cari nomor urut terakhir di tahun tersebut
             // Kita hitung berdasarkan total barang yang sudah ada di tahun tersebut
-            $lastCount = self::whereYear('tanggal_perolehan', $tahun)
-                             ->where('kategori_id', $barang->kategori_id)
-                             ->count();
+            $lastCount = self::whereYear('tanggal_perolehan', $tahun)->where('kategori_id', $barang->kategori_id)->count();
 
             $nextNumber = $lastCount + 1;
             $formattedNumber = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
             // 4. Gabungkan jadi No Inventaris: JENJANG/KATEGORI/URUTAN/TAHUN
             // Contoh: SD/LAPTOP/001/2024
-            $barang->no_inventaris = "{$gedung}/{$kodeJenjang}/{$kodeKategori}/{$formattedNumber}/{$tahun}";
+            $barang->no_inventaris = "{$gedung}/{$kodeJenjang}/{$kodeKategori}/{$sumber}/{$formattedNumber}/{$tahun}";
             // OTOMATIS: Mengisi siapa user yang sedang login saat input data
             $barang->user_id = auth()->id();
         });

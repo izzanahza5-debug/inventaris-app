@@ -58,7 +58,7 @@
                     <h3 class="fw-bold mb-2">Edit Jenjang</h3>
                     <p class="text-muted mb-4">Perbarui informasi tingkatan pendidikan sekolah.</p>
 
-                    <form action="{{ route('master.jenjang.update', $jenjang->id) }}" method="POST" class="text-start">
+                    <form action="{{ route('master.jenjang.update', $jenjang->slug) }}" method="POST" class="text-start">
                         @csrf 
                         @method('PUT')
 
@@ -84,7 +84,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-4 px-2">
+                        {{-- <div class="mb-4 px-2">
                             <div class="d-flex align-items-center p-3 bg-light rounded-4 border-0">
                                 <i class="fa-solid fa-link text-muted me-3"></i>
                                 <div>
@@ -92,7 +92,7 @@
                                     <code class="text-primary fw-bold">{{ $jenjang->slug }}</code>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-update-blue shadow">

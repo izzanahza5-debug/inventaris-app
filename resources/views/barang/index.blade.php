@@ -56,11 +56,11 @@
         @endif
 
         <div class="d-flex my-2" style="gap: 10px">
-            <a href="{{ route('barang.export-pdf', request()->query()) }}" class="btn btn-danger btn-sm rounded-pill px-3">
+            <a  href="{{ route('barang.export-pdf', request()->query()) }}" class="btn btn-danger btn-sm rounded-pill px-3 py-2">
                 <i class="fa-solid fa-file-pdf me-1"></i> Export PDF
             </a>
-            <a href="{{ route('barang.export-excel', request()->query()) }}"
-                class="btn btn-success btn-sm rounded-pill px-3">
+            <a  href="{{ route('barang.export-excel', request()->query()) }}"
+                class="btn btn-success btn-sm rounded-pill px-3 py-2">
                 <i class="fa-solid fa-file-excel me-1"></i> Export Excel
             </a>
         </div>
@@ -73,7 +73,7 @@
                         <div class="input-group-custom d-flex align-items-center px-3"
                             style="background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6; height: 45px;">
                             <i class="fa-solid fa-magnifying-glass text-muted me-2"></i>
-                            <input type="text" name="search" class="form-control border-0 bg-transparent"
+                            <input type="search" name="search" class="form-control border-0 bg-transparent"
                                 placeholder="Cari nama atau no. inventaris..." value="{{ request('search') }}">
                         </div>
                     </div>
@@ -109,7 +109,7 @@
 
                     <div class="col-md-2">
                         <a href="{{ route('barang.index') }}"
-                            class="btn btn-light w-100 rounded-3 d-flex align-items-center justify-content-center"
+                            class="btn btn-outline-danger w-100 rounded-3 d-flex align-items-center justify-content-center"
                             style="height: 45px;">
                             Reset
                         </a>
@@ -163,7 +163,7 @@
                                             @endif
                                             <div>
                                                 <div class="fw-bold">{{ $item->nama_barang }}</div>
-                                                <div class="small text-muted">{{ $item->kategori->nama_kategori }}</div>
+                                                {{-- <div class="small text-muted">{{ $item->kategori->nama_kategori }}</div> --}}
                                             </div>
                                         </div>
                                     </td>
@@ -178,13 +178,13 @@
                                     <td class="text-center">
                                         <div class="d-flex justify-content-end gap-1">
 
-                                            <a href="{{ route('barang.edit', $item->id) }}"
-                                                class="btn btn-sm btn-edit rounded-circle bg-primary" title="Edit Data">
+                                            <a href="{{ route('barang.edit', $item->nama_barang) }}"
+                                                class="btn btn-sm btn-edit rounded-2 btn-primary" title="Edit Data">
                                                 <i class="fa-solid fa-pen-to-square text-light"></i>
                                             </a>
 
-                                            <a href="{{ route('barang.show', $item->id) }}"
-                                                class="btn bg-warning btn-sm btn-detail mx-2 rounded-circle "
+                                            <a href="{{ route('barang.show', $item->nama_barang) }}"
+                                                class="btn btn-warning btn-sm btn-detail mx-1 rounded-2 "
                                                 title="Lihat Detail">
                                                 <i class="fa-solid fa-eye text-light"></i>
                                             </a>
@@ -193,7 +193,7 @@
                                                 class="d-inline">
                                                 @csrf @method('DELETE')
                                                 <button type="submit"
-                                                    class="btn btn-sm btn-delete rounded-circle bg-danger "
+                                                    class="btn btn-sm btn-delete rounded-2 btn-danger "
                                                     title="Hapus Barang"
                                                     onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
                                                     <i class="fa-solid fa-trash-can text-light"></i>

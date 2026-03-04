@@ -11,14 +11,14 @@ class SumberDanaController extends Controller
 {
     public function index()
     {
-        $sumberDanas = SumberDana::latest()->get();
+        $sumberDanas = SumberDana::latest()->paginate(5);
         return view('master.sumber-dana.index', compact('sumberDanas'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'kode_sumber' => 'required|unique:sumber_danas,kode_sumber',
+            'kode_sumber' => 'required|unique:sumber_danas,kode_sumber|max:3',
             'nama_sumber' => 'required|string|max:255',
         ]);
 

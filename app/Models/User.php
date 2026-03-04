@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,6 +19,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $guarded = [];
+    // Relasi ke tabel Role
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+    
+    // Helper untuk cek role (opsional tapi berguna)
+    public function isAdmin(): bool
+    {
+        return $this->role->slug === 'admin';
+    }
     // protected $fillable = [
     //     'name',
     //     'email',

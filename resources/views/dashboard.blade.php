@@ -66,7 +66,7 @@
         <div class="col-md-4 text-md-end">
             <div class="bg-white p-3 rounded-4 shadow-sm d-inline-block border border-light">
                 <i class="fa-regular fa-calendar-check text-primary me-2"></i>
-                <span class="fw-bold text-dark">{{ now()->locale('id')->translatedFormat('l, d F Y') }}</span>
+                <span class="fw-bold text-dark">{{ now()->locale('ID')->translatedFormat('l, d F Y') }}</span>
             </div>
         </div>
     </div>
@@ -127,10 +127,10 @@
 
     <div class="row g-4">
         <div class="col-lg-8">
-            <div class="card dashboard-card bg-white shadow-sm border-0 h-100">
+            <div class="card dashboard-card bg-white shadow-sm border-0 ">
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
-                    <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-clock-rotate-left text-primary me-2"></i> Barang Ditambahkan Terakhir</h5>
-                    <a href="#" class="btn btn-sm btn-light rounded-pill px-3 text-primary fw-bold">Lihat Semua</a>
+                    <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-clock-rotate-left text-primary me-2"></i> Barang Terakhir Ditambahkan</h5>
+                    <a href="{{ route('barang.index') }}" class="btn btn-sm btn-light rounded-pill px-3 text-primary fw-bold">Lihat Semua</a>
                 </div>
                 <div class="card-body p-4">
                     <div class="table-responsive">
@@ -139,19 +139,33 @@
                                 <tr>
                                     <th>Kode Inventaris</th>
                                     <th>Nama Barang</th>
-                                    <th>Tgl Masuk</th>
-                                    <th>Status</th>
+                                    <th>Tgl Perolehan</th>
+                                    <th>Kondisi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="4" class="text-center py-5 text-muted">
-                                        <div class="bg-light d-inline-block p-3 rounded-circle mb-3">
-                                            <i class="fa-solid fa-box-open fa-2x"></i>
-                                        </div>
-                                        <p class="mb-0">Belum ada data barang yang diinput.</p>
-                                    </td>
-                                </tr>
+                                @forelse($recentBarangs as $barang)
+                            <tr>
+                                <td><span class="fw-bold text-primary">{{ $barang->no_inventaris }}</span></td>
+                                <td>{{ $barang->nama_barang }}</td>
+                                <td>{{ $barang->tanggal_perolehan->format('d/m/Y') }}</td>
+                                <td>
+                                    <span class="badge rounded-pill 
+                                        {{ $barang->kondisi == 'Baik' ? 'bg-light text-success' : ($barang->kondisi == 'Rusak Ringan' ? 'bg-light text-warning' : 'bg-light text-danger') }}">
+                                        {{ $barang->kondisi }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">
+                                    <div class="bg-light d-inline-block p-3 rounded-circle mb-3">
+                                        <i class="fa-solid fa-box-open fa-2x"></i>
+                                    </div>
+                                    <p class="mb-0">Belum ada data barang yang diinput.</p>
+                                </td>
+                            </tr>
+                        @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -177,7 +191,7 @@
                     <h6 class="fw-bold mb-0 text-dark text-uppercase"><i class="fa-solid fa-bolt text-warning me-2"></i> Akses Cepat</h6>
                 </div>
                 <div class="card-body p-3">
-                    <a href="#" class="btn btn-quick-action w-100 text-start text-dark text-decoration-none d-flex align-items-center mb-2">
+                    <a href="{{ route('barang.create') }}" class="btn btn-quick-action w-100 text-start text-dark text-decoration-none d-flex align-items-center mb-2">
                         <div class="bg-primary bg-opacity-10 text-primary rounded p-2 me-3">
                             <i class="fa-solid fa-plus fa-fw"></i>
                         </div>
@@ -197,7 +211,7 @@
                         </div>
                     </a>
 
-                    <a href="#" class="btn btn-quick-action w-100 text-start text-dark text-decoration-none d-flex align-items-center">
+                    <a href="{{ route('barang.index') }}" class="btn btn-quick-action w-100 text-start text-dark text-decoration-none d-flex align-items-center">
                         <div class="bg-success bg-opacity-10 text-success rounded p-2 me-3">
                             <i class="fa-solid fa-file-pdf fa-fw"></i>
                         </div>

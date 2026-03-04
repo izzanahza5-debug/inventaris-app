@@ -8,32 +8,52 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\JenjangController;
 use App\Http\Controllers\Master\GedungController;
 use App\Http\Controllers\Master\KategoriController;
+use App\Http\Controllers\Master\RoleController;
+use App\Http\Controllers\Master\RuanganController;
 use App\Http\Controllers\Master\SumberDanaController;
 
-// Halaman Login
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login') ->middleware('redirectIfLogin');
+/*
+|--------------------------------------------------------------------------
+| Public Routes (Halaman akses publik/guest)
+|--------------------------------------------------------------------------
+*/
+Route::get('/login', [AuthController::class, 'index'])
+    ->name('login')
+    ->middleware('redirectIfLogin');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+/*
+|--------------------------------------------------------------------------
+| Protected Routes (Halaman yang WAJIB Login)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    // 1. Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Route Group untuk Master Data (Bisa diakses Admin, IT, Umum)
-Route::prefix('master')->name('master.')->group(function () {
-    Route::resource('jenjang', JenjangController::class);
-    Route::resource('gedung', GedungController::class);
-    Route::resource('kategori', KategoriController::class);
-    Route::resource('sumber-dana', SumberDanaController::class);
+    // 2. Master Data (Jenjang, Gedung, Kategori/Kode Barang, Sumber Dana)
+    Route::prefix('master')
+        ->name('master.')
+        ->group(function () {
+            Route::resource('jenjang', JenjangController::class);
+            Route::resource('gedung', GedungController::class);
+            Route::resource('kategori', KategoriController::class); // Master Kode Barang
+            Route::resource('sumber-dana', SumberDanaController::class); // Master Data Pembelian
+            Route::resource('ruangan', RuanganController::class);
+        });
+
+    // 3. Kelola Barang & Laporan (PDF/Excel)
+    // Pastikan route export diletakkan DI ATAS resource agar tidak tertukar dengan route /barang/{id}
+    Route::get('/barang/export-pdf', [BarangController::class, 'exportPdf'])->name('barang.export-pdf');
+    Route::get('/barang/export-excel', [BarangController::class, 'exportExcel'])->name('barang.export-excel');
+    Route::resource('barang', BarangController::class);
+    Route::get('/api/ruangan/{gedung_id}', [App\Http\Controllers\Master\RuanganController::class, 'getRuanganByGedung']);
+
+    // 4. Khusus Role Admin (Kelola User)
+    // Hanya user dengan role 'admin' yang bisa masuk ke sini
+    Route::resource('user', UserController::class);
+    Route::resource('role', RoleController::class);
+    // Route::middleware(['role:admin'])->group(function () {
+    // });
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-// Route Khusus Admin (Kelola User)
-// Kita akan buat middleware 'role:admin' nanti
-Route::resource('user', UserController::class);
-Route::middleware(['auth', 'role:admin'])->group(function () {
-});
-
-Route::get('/barang/export-pdf', [BarangController::class, 'exportPdf'])->name('barang.export-pdf');
-Route::get('/barang/export-excel', [BarangController::class, 'exportExcel'])->name('barang.export-excel');
-
-// Route Kelola Barang & Laporan (Bisa diakses semua role)
-Route::resource('barang', BarangController::class);
-Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');

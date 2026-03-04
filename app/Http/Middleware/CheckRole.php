@@ -17,7 +17,7 @@ class CheckRole
 public function handle($request, Closure $next, ...$roles)
 {
     if (!in_array($request->user()->role, $roles)) {
-        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        return redirect('/dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
     }
     return $next($request);
 }

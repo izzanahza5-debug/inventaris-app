@@ -36,7 +36,11 @@ public function index(Request $request)
 {
     $gedungs = Gedung::all();
     // Ambil query dari fungsi private, lalu tambahkan paginate
-    $barangs = $this->filterQuery($request)->latest()->paginate(10)->withQueryString();
+    $barangs = $this->filterQuery($request)
+    ->dataByRole()
+    ->latest()
+    ->paginate(10)
+    ->withQueryString();
 
     return view('barang.index', compact('barangs', 'gedungs'));
 }
@@ -79,8 +83,9 @@ public function index(Request $request)
         return redirect()->route('barang.index')->with('success', 'Barang berhasil didaftarkan ke sistem!');
     }
 
-    public function edit(Barang $barang)
-    {
+    public function edit($slug)
+    {   
+        $barang = Barang::where('nama_barang', $slug)->dataByRole()->firstOrFail();
         $jenjangs = Jenjang::all();
         $kategoris = Kategori::all();
         $gedungs = Gedung::all();
@@ -88,8 +93,9 @@ public function index(Request $request)
         return view('barang.edit', compact('barang', 'jenjangs', 'kategoris', 'gedungs', 'sumberDanas'));
     }
 
-    public function update(Request $request, Barang $barang)
-    {
+    public function update(Request $request, $slug)
+    {   
+        $barang = Barang::where('nama_barang', $slug)->firstOrFail();
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'ruang' => 'required',
@@ -119,8 +125,9 @@ public function index(Request $request)
         $barang->delete();
         return back()->with('success', 'Barang telah dihapus dari inventaris.');
     }
-    public function show(Barang $barang)
-{
+    public function show($slug)
+{   
+        $barang = Barang::where('nama_barang', $slug)->firstOrFail();
     // Load relasi agar data pembuat muncul
     $barang->load(['jenjang', 'kategori', 'gedung', 'sumberDana', 'user']);
     return view('barang.show', compact('barang'));

@@ -142,7 +142,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('login.post') }}" method="POST">
+                <form action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-secondary">USERNAME</label>
@@ -164,12 +164,12 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-login w-100 mb-4">
+                    <button type="submit" class="btn btn-login w-100 mb-1">
                         Masuk ke Dashboard <i class="fa-solid fa-arrow-right ms-2"></i>
                     </button>
                 </form>
 
-                <div class="text-center text-muted small mt-4">
+                <div class="text-center text-muted small mt-1">
                     Butuh bantuan akses? <a href="#" class="text-primary fw-bold text-decoration-none">Hubungi IT Support</a>
                 </div>
             </div>

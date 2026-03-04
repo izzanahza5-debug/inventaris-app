@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('barang.update', $barang->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('barang.update', $barang->nama_barang) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
