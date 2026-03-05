@@ -181,7 +181,7 @@
                     </div>
                     <h5 class="fw-bold mb-1">{{ Auth::user()->name }}</h5>
                     <span class="badge bg-dark text-uppercase px-3 py-2 rounded-pill shadow-sm">
-                        Akses: {{ Auth::user()->role }}
+                        Akses: {{ Auth::user()->role->nama_role }}
                     </span>
                 </div>
             </div>
@@ -200,7 +200,8 @@
                             <small class="text-muted">Generate nomor inventaris</small>
                         </div>
                     </a>
-                    
+                    @if (Auth::user()->role->nama_role == 'Administrator')
+                        
                     <a href="{{ route('master.kategori.index') }}" class="btn btn-quick-action w-100 text-start text-dark text-decoration-none d-flex align-items-center mb-2">
                         <div class="bg-purple bg-opacity-10 text-purple rounded p-2 me-3" style="color: #6610f2;">
                             <i class="fa-solid fa-tags fa-fw"></i>
@@ -210,6 +211,7 @@
                             <small class="text-muted">Tambah kode klasifikasi</small>
                         </div>
                     </a>
+                    @endif
 
                     <a href="{{ route('barang.index') }}" class="btn btn-quick-action w-100 text-start text-dark text-decoration-none d-flex align-items-center">
                         <div class="bg-success bg-opacity-10 text-success rounded p-2 me-3">

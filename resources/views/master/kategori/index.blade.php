@@ -132,7 +132,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('master.kategori.edit', $kat->slug) }}" class="action-icon btn-edit text-primary shadow-sm" title="Ubah Data">
+                                    <a href="{{ route('master.kategori.edit', $kat->slug) }}" style="color: #6610f2" class="action-icon btn-edit shadow-sm" title="Ubah Data">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form action="{{ route('master.kategori.destroy', $kat->id) }}" method="POST" class="d-inline">

@@ -11,6 +11,9 @@ class SumberDanaController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $sumberDanas = SumberDana::latest()->paginate(5);
         return view('master.sumber-dana.index', compact('sumberDanas'));
     }
@@ -18,21 +21,24 @@ class SumberDanaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_sumber' => 'required|unique:sumber_danas,kode_sumber|max:3',
+            'kode_sumber' => 'required|unique:sumber_danas,kode_sumber|max:5',
             'nama_sumber' => 'required|string|max:255',
         ]);
 
         SumberDana::create([
             'kode_sumber' => strtoupper($request->kode_sumber),
             'nama_sumber' => $request->nama_sumber,
-            'slug'        => Str::slug($request->nama_sumber),
+            'slug' => Str::slug($request->nama_sumber),
         ]);
 
         return back()->with('success', 'Sumber dana berhasil ditambahkan!');
     }
 
     public function edit($slug)
-    {   
+    {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $sumberDana = SumberDana::where('slug', operator: $slug)->firstOrFail();
         return view('master.sumber-dana.edit', compact('sumberDana'));
     }
@@ -41,14 +47,14 @@ class SumberDanaController extends Controller
     {
         $sumberDana = SumberDana::where('slug', operator: $slug)->firstOrFail();
         $request->validate([
-            'kode_sumber' => 'required|unique:sumber_danas,kode_sumber,' . $sumberDana->id,
+            'kode_sumber' => 'required|max:5|unique:sumber_danas,kode_sumber,' . $sumberDana->id,
             'nama_sumber' => 'required|string|max:255',
         ]);
 
         $sumberDana->update([
             'kode_sumber' => strtoupper($request->kode_sumber),
             'nama_sumber' => $request->nama_sumber,
-            'slug'        => Str::slug($request->nama_sumber),
+            'slug' => Str::slug($request->nama_sumber),
         ]);
 
         return redirect()->route('master.sumber-dana.index')->with('success', 'Sumber dana berhasil diperbarui!');

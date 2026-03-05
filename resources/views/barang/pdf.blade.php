@@ -196,7 +196,7 @@
             <p>{{ now()->format('d F Y') }}<br>Mengetahui,</p>
             <p style="font-weight: bold; margin-bottom: 0;">{{ Auth()->user()->role->nama_role }}</p>
             <div class="signature-space"></div>
-            <span class="signer-name">NAMA PEJABAT, S.T.</span>
+            <span class="signer-name">{{ Auth()->user()->name }}</span>
             <small>NIP. 19800101 200501 1 001</small>
         </div>
         <div class="clear"></div>

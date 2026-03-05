@@ -144,7 +144,7 @@
                                 <div class="mb-3">
                                     <label class="small fw-bold mb-2">RUANGAN</label>
                                     <div class="input-group-custom">
-                                        <select name="ruangan_id" id="ruangan_id" required disabled>
+                                        <select name="ruang_id" id="ruangan_id" required disabled>
                                             <option value="">Pilih Gedung Terlebih Dahulu...</option>
                                         </select>
                                     </div>
@@ -182,6 +182,7 @@
     </div>
     
     @endsection
+    
     @section('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {

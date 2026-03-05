@@ -12,19 +12,13 @@
     <div class="d-flex align-items-center mb-4" style="flex-wrap: wrap">
         <div class="">
 
-            <a href="{{ route('barang.index') }}" class="btn btn-white shadow-sm rounded-circle me-3">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a>
+            
             <div>
                 <h3 class="fw-bold mb-0">Detail Inventaris</h3>
                 <p class="text-muted mb-0">Nomor: <span class="text-primary fw-bold">{{ $barang->no_inventaris }}</span></p>
             </div>
         </div>
-        <div class="ms-auto my-2">
-            <a href="{{ route('barang.edit', $barang->nama_barang) }}" class="btn btn-primary text-white px-4 rounded-pill fw-bold">
-                <i class="fa-solid fa-pen-to-square me-2"></i> Edit Data
-            </a>
-        </div>
+        
     </div>
 
     <div class="row">

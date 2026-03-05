@@ -59,7 +59,8 @@
                     </div>
                 </div>
 
-                <form action="{{ route('barang.update', $barang->nama_barang) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('barang.update', $barang->nama_barang) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -83,9 +84,9 @@
                                             <input type="date" name="tanggal_perolehan"
                                                 value="{{ $barang->tanggal_perolehan->format('Y-m-d') }}" required>
                                         </div>
-                                </div>
+                                    </div>
 
-                                <div class="col-md-6">
+                                    <div class="col-md-6">
                                         <label class="small fw-bold mb-2">HARGA BARANG (Rp)</label>
                                         <div class="input-group-custom">
                                             <input type="number" name="harga_barang" value="{{ $barang->harga_barang }}"
@@ -139,7 +140,9 @@
                                 <div class="mb-3">
                                     <label class="small fw-bold mb-2">RUANGAN</label>
                                     <div class="input-group-custom">
-                                        <input type="text" name="ruang" value="{{ $barang->ruang }}" placeholder="Ruang IT...">
+                                        <select name="ruang_id" id="ruang_id" required>
+                                            <option value="">Pilih Ruangan...</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -191,4 +194,67 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Ambil elemen dari ID yang benar (pastikan nama ID sesuai dengan HTML Anda)
+        const gedungSelect = document.querySelector('select[name="gedung_id"]');
+        const ruanganSelect = document.getElementById('ruang_id');
+        
+        // Ambil ID ruangan lama dari database (dari data barang yang sedang diedit)
+        const currentRuanganId = "{{ $barang->ruang_id }}";
+
+        // Fungsi untuk mengambil data ruangan
+        function loadRuangan(gedungId, selectedRuanganId = null) {
+            // Reset Dropdown Ruangan
+            ruanganSelect.innerHTML = '<option value="">Sedang memuat...</option>';
+            ruanganSelect.disabled = true;
+
+            if (gedungId) {
+                fetch(`/api/ruangan/${gedungId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        ruanganSelect.innerHTML = '<option value="">-- Pilih Ruangan --</option>';
+                        
+                        if(data.length > 0) {
+                            data.forEach(ruangan => {
+                                const option = document.createElement('option');
+                                option.value = ruangan.id;
+                                // Sesuaikan properti nama (nama_ruangan atau nama_ruang)
+                                option.textContent = ruangan.nama_ruangan || ruangan.nama_ruang; 
+                                
+                                // Jika ID ruangan sama dengan ID ruangan barang, set jadi selected
+                                if (selectedRuanganId && ruangan.id == selectedRuanganId) {
+                                    option.selected = true;
+                                }
+                                
+                                ruanganSelect.appendChild(option);
+                            });
+                            ruanganSelect.disabled = false;
+                        } else {
+                            ruanganSelect.innerHTML = '<option value="">Tidak ada ruangan di gedung ini</option>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        ruanganSelect.innerHTML = '<option value="">Gagal memuat data</option>';
+                    });
+            } else {
+                ruanganSelect.innerHTML = '<option value="">Pilih Gedung Terlebih Dahulu...</option>';
+                ruanganSelect.disabled = true;
+            }
+        }
+
+        // 1. Jalankan saat halaman pertama kali dibuka (untuk set nilai awal)
+        if (gedungSelect.value) {
+            loadRuangan(gedungSelect.value, currentRuanganId);
+        }
+
+        // 2. Jalankan saat user mengubah pilihan gedung
+        gedungSelect.addEventListener('change', function() {
+            loadRuangan(this.value);
+        });
+    });
+</script>
 @endsection

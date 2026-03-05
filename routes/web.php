@@ -21,6 +21,8 @@ Route::get('/login', [AuthController::class, 'index'])
     ->name('login')
     ->middleware('redirectIfLogin');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     // Pastikan route export diletakkan DI ATAS resource agar tidak tertukar dengan route /barang/{id}
     Route::get('/barang/export-pdf', [BarangController::class, 'exportPdf'])->name('barang.export-pdf');
     Route::get('/barang/export-excel', [BarangController::class, 'exportExcel'])->name('barang.export-excel');
+    Route::get('/barang/cetak-label', [App\Http\Controllers\BarangController::class, 'cetakLabel'])->name('barang.cetak-label');
+    Route::get('/barang/cetak-label-satuan/{id}', [BarangController::class, 'cetakLabelSatuan'])
+    ->name('barang.cetak-label-satuan');
     Route::resource('barang', BarangController::class);
     Route::get('/api/ruangan/{gedung_id}', [App\Http\Controllers\Master\RuanganController::class, 'getRuanganByGedung']);
 
@@ -55,5 +60,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('role', RoleController::class);
     // Route::middleware(['role:admin'])->group(function () {
     // });
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+Route::get('/{slug}', [App\Http\Controllers\BarangController::class, 'showPublic'])->name('barang.show-public');

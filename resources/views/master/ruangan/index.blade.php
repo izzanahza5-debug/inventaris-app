@@ -127,7 +127,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('master.ruangan.edit', $r->nama_ruangan) }}" class="action-icon btn-edit text-primary shadow-sm" title="Ubah">
+                                    <a href="{{ route('master.ruangan.edit', $r->nama_ruangan) }}" style="color: #0cbc87"  class="action-icon btn-edit shadow-sm" title="Ubah">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form action="{{ route('master.ruangan.destroy', $r->id) }}" method="POST" class="d-inline">

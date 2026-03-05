@@ -11,6 +11,10 @@ class KategoriController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $kategoris = Kategori::latest()->paginate(5);
         return view('master.kategori.index', compact('kategoris'));
     }
@@ -25,20 +29,23 @@ class KategoriController extends Controller
         Kategori::create([
             'kode_kategori' => strtoupper($request->kode_kategori),
             'nama_kategori' => $request->nama_kategori,
-            'slug'          => Str::slug($request->nama_kategori),
+            'slug' => Str::slug($request->nama_kategori),
         ]);
 
         return back()->with('success', 'Kategori barang berhasil ditambahkan!');
     }
 
     public function edit($slug)
-    {   
+    {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $kategori = Kategori::where('slug', $slug)->firstOrFail();
         return view('master.kategori.edit', compact('kategori'));
     }
 
     public function update(Request $request, $slug)
-    {   
+    {
         $kategori = Kategori::where('slug', $slug)->firstOrFail();
         $request->validate([
             'kode_kategori' => 'required|max:5|unique:kategoris,kode_kategori,' . $kategori->id,
@@ -48,7 +55,7 @@ class KategoriController extends Controller
         $kategori->update([
             'kode_kategori' => strtoupper($request->kode_kategori),
             'nama_kategori' => $request->nama_kategori,
-            'slug'          => Str::slug($request->nama_kategori),
+            'slug' => Str::slug($request->nama_kategori),
         ]);
 
         return redirect()->route('master.kategori.index')->with('success', 'Kategori berhasil diperbarui!');

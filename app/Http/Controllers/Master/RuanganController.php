@@ -10,6 +10,9 @@ class RuanganController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $ruangans = Ruangan::with('gedung')->latest()->paginate(10);
         $gedungs = Gedung::all();
         return view('master.ruangan.index', compact('ruangans', 'gedungs'));
@@ -24,13 +27,15 @@ class RuanganController extends Controller
 
         Ruangan::create($request->all());
 
-        return redirect()->route('master.ruangan.index')
-                         ->with('success', 'Ruangan berhasil ditambahkan!');
+        return redirect()->route('master.ruangan.index')->with('success', 'Ruangan berhasil ditambahkan!');
     }
 
     // Fungsi ini untuk halaman edit terpisah sesuai permintaanmu
     public function edit($slug)
-    {   
+    {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $ruangan = Ruangan::where('nama_ruangan', $slug)->firstOrFail();
         $gedungs = Gedung::all();
         return view('master.ruangan.edit', compact('ruangan', 'gedungs'));
@@ -46,8 +51,7 @@ class RuanganController extends Controller
 
         $ruangan->update($request->all());
 
-        return redirect()->route('master.ruangan.index')
-                         ->with('success', 'Ruangan berhasil diperbarui!');
+        return redirect()->route('master.ruangan.index')->with('success', 'Ruangan berhasil diperbarui!');
     }
 
     public function destroy(Ruangan $ruangan)
@@ -56,15 +60,14 @@ class RuanganController extends Controller
         // if ($ruangan->barangs()->count() > 0) { ... }
 
         $ruangan->delete();
-        return redirect()->route('master.ruangan.index')
-                         ->with('success', 'Ruangan berhasil dihapus!');
+        return redirect()->route('master.ruangan.index')->with('success', 'Ruangan berhasil dihapus!');
     }
 
     // app/Http/Controllers/Master/RuanganController.php
 
-public function getRuanganByGedung($gedungId)
-{
-    $ruangan = Ruangan::where('gedung_id', $gedungId)->get();
-    return response()->json($ruangan);
-}
+    public function getRuanganByGedung($gedungId)
+    {
+        $ruangan = Ruangan::where('gedung_id', $gedungId)->get();
+        return response()->json($ruangan);
+    }
 }

@@ -17,17 +17,16 @@
 
 /* Sidebar Styling */
 .sidebar {
-    min-height: 100vh;
+    height: 100%;
     background: #212529;
     color: white;
     width: 260px;
     position: fixed;
     transition: all 0.3s ease-in-out;
     z-index: 1000;
-    
     /* TAMBAHKAN DUA BARIS INI */
     overflow-y: auto; 
-    max-height: 100vh;
+    
 }
 
 /* OPSIONAL: Mempercantik Scrollbar agar terlihat modern (untuk Chrome, Safari, Edge) */
@@ -204,7 +203,7 @@
 </head>
 
 <body>
-
+    @auth
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div  class="sidebar d-flex flex-column shadow" id="sidebar">
@@ -310,14 +309,17 @@
             </form>
         </div>
     </div>
-
+    @endauth
     <div class="main-content">
+        @auth
+            
         <div class="d-lg-none d-flex align-items-center mb-4">
             <button class="btn-mobile-toggle me-3" id="openSidebarBtn">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <h5 class="mb-0 fw-bold text-dark">Menu Navigasi</h5>
         </div>
+        @endauth
 
         <div class="container-fluid p-0">
             @yield('content')
@@ -330,7 +332,7 @@
                             <span>&copy; {{ date('Y') }} All Rights Reserved.</span>
                         </div>
 
-                        {{-- <div class="d-none d-md-block">
+            {{-- <div class="d-none d-md-block">
                 <span class="footer-status-indicator"></span>
                 <small class="text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">System Operational</small>
             </div>

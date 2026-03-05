@@ -11,6 +11,9 @@ class JenjangController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $jenjangs = Jenjang::latest()->paginate(5);
         return view('master.jenjang.index', compact('jenjangs'));
     }
@@ -25,19 +28,23 @@ class JenjangController extends Controller
         Jenjang::create([
             'kode_jenjang' => strtoupper($request->kode_jenjang),
             'nama_jenjang' => $request->nama_jenjang,
-            'slug'         => Str::slug($request->nama_jenjang),
+            'slug' => Str::slug($request->nama_jenjang),
         ]);
 
         return back()->with('success', 'Jenjang baru berhasil ditambahkan!');
     }
 
-    public function edit( $slug)
-    {   $jenjang = Jenjang::where('slug', $slug)->firstOrFail();
+    public function edit($slug)
+    {
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
+        $jenjang = Jenjang::where('slug', $slug)->firstOrFail();
         return view('master.jenjang.edit', compact('jenjang'));
     }
 
     public function update(Request $request, $slug)
-    {   
+    {
         $jenjang = Jenjang::where('slug', $slug)->firstOrFail();
         $request->validate([
             'kode_jenjang' => 'required|unique:jenjangs,kode_jenjang,' . $jenjang->id,
@@ -47,7 +54,7 @@ class JenjangController extends Controller
         $jenjang->update([
             'kode_jenjang' => strtoupper($request->kode_jenjang),
             'nama_jenjang' => $request->nama_jenjang,
-            'slug'         => Str::slug($request->nama_jenjang),
+            'slug' => Str::slug($request->nama_jenjang),
         ]);
 
         return redirect()->route('master.jenjang.index')->with('success', 'Data jenjang berhasil diperbarui!');

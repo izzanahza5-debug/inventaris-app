@@ -12,17 +12,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\BarangExport;
+use App\Models\Ruangan;
 // use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Facades\Excel; // Untuk Excel
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BarangController extends Controller
 {
 private function filterQuery(Request $request)
 {
-    return Barang::with(['jenjang', 'kategori', 'gedung', 'sumberDana'])
+    return Barang::with(['jenjang', 'kategori', 'gedung', 'sumberDana', 'ruang'])
         ->when($request->search, function ($query) use ($request) {
-            $query->where('nama_barang', 'like', '%' . $request->search . '%')
+            // Dibungkus function agar "OR" tidak merusak filter gedung/kondisi
+            $query->where(function($q) use ($request) {
+                $q->where('nama_barang', 'like', '%' . $request->search . '%')
                   ->orWhere('no_inventaris', 'like', '%' . $request->search . '%');
+            });
         })
         ->when($request->gedung, function ($query) use ($request) {
             $query->where('gedung_id', $request->gedung);
@@ -62,7 +67,7 @@ public function index(Request $request)
             'jenjang_id' => 'required',
             // 'user_id' => $userId,
             'kategori_id' => 'required',
-            'ruang' => 'required',
+            'ruang_id' => 'required|exists:ruangans,id',
             'gedung_id' => 'required',
             'sumber_dana_id' => 'required',
             'tanggal_perolehan' => 'required|date',
@@ -85,12 +90,14 @@ public function index(Request $request)
 
     public function edit($slug)
     {   
+        
         $barang = Barang::where('nama_barang', $slug)->dataByRole()->firstOrFail();
         $jenjangs = Jenjang::all();
         $kategoris = Kategori::all();
         $gedungs = Gedung::all();
         $sumberDanas = SumberDana::all();
-        return view('barang.edit', compact('barang', 'jenjangs', 'kategoris', 'gedungs', 'sumberDanas'));
+        $ruangan = Ruangan::all();
+        return view('barang.edit', compact('barang','ruangan', 'jenjangs', 'kategoris', 'gedungs', 'sumberDanas'));
     }
 
     public function update(Request $request, $slug)
@@ -98,7 +105,7 @@ public function index(Request $request)
         $barang = Barang::where('nama_barang', $slug)->firstOrFail();
         $request->validate([
             'nama_barang' => 'required|string|max:255',
-            'ruang' => 'required',
+            'ruang_id' => 'required|exists:ruangans,id',
             'tanggal_perolehan' => 'required|date',
             'harga_barang' => 'required|numeric',
         ]);
@@ -129,7 +136,7 @@ public function index(Request $request)
 {   
         $barang = Barang::where('nama_barang', $slug)->firstOrFail();
     // Load relasi agar data pembuat muncul
-    $barang->load(['jenjang', 'kategori', 'gedung', 'sumberDana', 'user']);
+    $barang->load(['jenjang', 'kategori', 'gedung', 'sumberDana', 'user', 'ruang']);
     return view('barang.show', compact('barang'));
 }
 
@@ -139,7 +146,7 @@ public function exportPdf(Request $request)
         
         // Load view yang sudah kita buat tadi
         $pdf = Pdf::loadView('barang.pdf', compact('barangs'))
-                  ->setPaper('a4', 'landscape'); // Landscape agar tabel lega
+                  ->setPaper('a4', 'potrait'); // Landscape agar tabel lega
 
         return $pdf->download('Laporan_Inventaris_'.now()->format('d-m-Y').'.pdf');
     }
@@ -148,5 +155,48 @@ public function exportPdf(Request $request)
     {
         return Excel::download(new BarangExport($request), 'Laporan_Inventaris_'.now()->format('d-m-Y').'.xlsx');
     }
+
+public function cetakLabel(Request $request)
+{
+    // Cukup panggil filterQuery, tambahkan dataByRole, lalu ambil hasilnya
+    $barangs = $this->filterQuery($request)->dataByRole()->get();
+
+     $pdf = pdf::loadView('barang.label_pdf', compact('barangs'))
+              ->setPaper('a4', 'portrait');
+    return $pdf->download('Label_barang_'. now()->format('d-m-Y'). '.pdf');
+}
+
+public function getRuangan($gedung_id)
+{
+    // Sesuaikan 'Ruang' dengan nama Model Ruangan kamu
+    $ruangan = Ruangan::where('gedung_id', $gedung_id)->get();
+    return response()->json($ruangan);
+}
+
+public function cetakLabelSatuan($id)
+{
+    // Cari barang berdasarkan ID
+    $barang = Barang::with(['kategori', 'jenjang', 'gedung', 'sumberDana'])->findOrFail($id);
+
+    // Kita masukkan ke array agar view 'label_pdf' yang lama tetap bisa digunakan
+    $barangs = [$barang];
+
+    $pdf = Pdf::loadView('barang.label_pdf', compact('barangs'))
+              ->setPaper([0, 0, 283.46, 141.73], 'portrait'); // Contoh ukuran custom (10x5 cm) atau pakai 'a4'
+
+    return $pdf->stream('Label-' . $barang->no_inventaris . '.pdf');
+}
+
+    public function showPublic($slug)
+{
+    // Cari barang berdasarkan slug (nama_barang)
+    $barang = Barang::where('nama_barang', $slug)->firstOrFail();
+    
+    // Load relasi
+    $barang->load(['jenjang', 'kategori', 'gedung', 'ruang', 'sumberDana', 'user']);
+    
+    // Gunakan view yang sama, atau buat view khusus 'barang.show_public'
+    return view('barang.detail', compact('barang'));
+}
 
 }

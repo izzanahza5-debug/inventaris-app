@@ -34,8 +34,16 @@ class Barang extends Model
     {
         return $this->belongsTo(SumberDana::class);
     }
-
+    public function ruang()
+{
+    return $this->belongsTo(Ruangan::class, 'ruang_id');
+}
     // app/Models/Barang.php
+
+    public function getRouteKeyName()
+{
+    return 'nama_barang'; // Laravel akan mencari data berdasarkan kolom ini, bukan ID
+}
 
     public function scopeDataByRole($query)
     {

@@ -28,14 +28,14 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users,username',
             'password' => 'required|min:6',
-            'role' => 'required|in:admin,umum,it',
+            'role_id' => 'required',
         ]);
 
         User::create([
             'name' => $request->name,
             'username' => $request->username,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role_id' => $request->role_id,
         ]);
 
         return back()->with('success', 'User baru berhasil ditambahkan!');
@@ -44,8 +44,9 @@ class UserController extends Controller
     public function edit($slug)
     {
         $user = User::where('name', $slug)->firstOrFail();
+        $role = Role::get();
 
-        return view('master.user.edit', compact('user'));
+        return view('master.user.edit', compact('user', 'role'));
     }
 
     public function update(Request $request, $slug)
@@ -54,7 +55,7 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users,username,' . $user->id,
-            'role' => 'required|in:admin,umum,it',
+            'role_id' => 'required',
         ];
 
         if ($request->filled('password')) {
@@ -65,7 +66,7 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
-        $user->role = $request->role;
+        $user->role_id = $request->role_id;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
@@ -73,7 +74,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('master.user.index')->with('success', 'Data user berhasil diperbarui!');
+        return redirect()->route('user.index')->with('success', 'Data user berhasil diperbarui!');
     }
 
     public function destroy(User $user)

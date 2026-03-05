@@ -132,7 +132,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('master.sumber-dana.edit', $sd->slug) }}" class="action-icon btn-edit text-primary shadow-sm" title="Ubah">
+                                    <a href="{{ route('master.sumber-dana.edit', $sd->slug) }}" style="color: #f39c12;" class="action-icon btn-edit shadow-sm" title="Ubah">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form action="{{ route('master.sumber-dana.destroy', $sd->id) }}" method="POST" class="d-inline">
@@ -188,7 +188,7 @@
                 <form action="{{ route('master.sumber-dana.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label fw-bold small text-muted text-uppercase">Kode Dana (Maximal 3 karakter)</label>
+                        <label class="form-label fw-bold small text-muted text-uppercase">Kode Dana (Maximal 5 karakter)</label>
                         <input type="text" name="kode_sumber" class="form-control form-control-lg border-0 bg-light rounded-4 px-4" placeholder="Contoh: BOSSD" required>
                     </div>
                     <div class="mb-4">

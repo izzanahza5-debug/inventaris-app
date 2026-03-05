@@ -55,20 +55,44 @@
         border: 1px solid #ffeeba;
         font-size: 0.75rem;
     }
+
+    /* Penyesuaian Mobile Responsif */
+    @media (max-width: 576px) {
+        .header-section {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1rem;
+        }
+        
+        .header-section button {
+            width: 100%; /* Tombol jadi lebar penuh di HP */
+            justify-content: center;
+        }
+
+        .table-modern thead th {
+            padding: 10px;
+            font-size: 0.6rem;
+        }
+
+        .action-icon {
+            width: 32px;
+            height: 32px;
+        }
+    }
 </style>
 
 <div class="container-fluid py-4">
-    <div class="d-flex justify-content-between flex-wrap align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 header-section">
         <div>
-            <h2 class="fw-bold mb-1" style="color: #2d3436; letter-spacing: -1px;">🔑 Master Role</h2>
+            <h2 class="fw-bold mb-1" style="color: #2d3436; letter-spacing: -1px;">🔑 Kelola Role</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted small">Master</a></li>
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted small">Sistem</a></li>
                     <li class="breadcrumb-item active fw-bold small text-primary">Data Role</li>
                 </ol>
             </nav>
         </div>
-        <button class="btn btn-gradient-indigo px-4 py-2-5 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+        <button class="btn btn-gradient-indigo px-4 py-2-5 rounded-pill shadow-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#addRoleModal">
             <i class="fa-solid fa-plus-circle me-2"></i> Tambah Role Baru
         </button>
     </div>
@@ -76,14 +100,14 @@
     @if(session('success'))
         <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 d-flex align-items-center p-3">
             <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;"><i class="fa-solid fa-check"></i></div>
-            <div class="fw-bold text-dark">{{ session('success') }}</div>
+            <div class="fw-bold text-dark small-mobile">{{ session('success') }}</div>
             <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
     @endif
 
     <div class="card card-master">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <div class="table-responsive" style="border-radius: 24px;">
                 <table class="table table-modern align-middle mb-0">
                     <thead>
                         <tr>
@@ -98,7 +122,7 @@
                             <td class="text-center text-muted fw-medium">{{ $role->id }}</td>
                             <td>
                                 <div class="fw-bold text-dark fs-6">{{ $role->nama_role }}</div>
-                                <small class="text-muted opacity-75">Slug: {{ $role->slug }}</small>
+                                {{-- <small class="text-muted opacity-75">Slug: {{ $role->slug }}</small> --}}
                             </td>
                             <td class="text-center">
                                 @if($role->slug !== 'admin')
@@ -115,7 +139,7 @@
                                 </div>
                                 @else
                                 <span class="badge badge-locked py-2 px-3 rounded-pill">
-                                    <i class="fa-solid fa-lock me-1"></i> System Protected
+                                    <i class="fa-solid fa-lock me-1"></i> <span class="d-none d-sm-inline">System</span> Locked
                                 </span>
                                 @endif
                             </td>
@@ -128,10 +152,9 @@
     </div>
 </div>
 
-{{-- Modal Create tetap ada di sini --}}
+{{-- Modal Tetap Sama --}}
 <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg" style="border-radius: 28px;">
+    <div class="modal-dialog modal-dialog-centered mx-3 mx-sm-auto"> <div class="modal-content border-0 shadow-lg" style="border-radius: 28px;">
             <div class="modal-body p-4 p-md-5">
                 <div class="text-center mb-4">
                     <div class="bg-primary bg-opacity-10 d-inline-block p-4 rounded-circle mb-3">
@@ -151,6 +174,12 @@
                         <button type="button" class="btn btn-link text-decoration-none text-muted fw-bold" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </form>
+                        <div class="mt-4 p-3 rounded-4 bg-light d-flex align-items-center border">
+            <i class="fa-solid fa-circle-info text-primary me-3 fs-5"></i>
+            <p class="mb-0 small text-muted">
+                Nama role memengaruhi pengelompokan pengguna. Pastikan nama yang dimasukkan sudah sesuai standar operasional.
+            </p>
+        </div>
             </div>
         </div>
     </div>

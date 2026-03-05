@@ -10,7 +10,10 @@ use Illuminate\Support\Str;
 class GedungController extends Controller
 {
     public function index()
-    {
+    {   
+                if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $gedungs = Gedung::latest()->paginate(5);
         return view('master.gedung.index', compact('gedungs'));
     }
@@ -33,6 +36,9 @@ class GedungController extends Controller
 
     public function edit($slug)
     {   
+                if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $gedung = Gedung::where('slug', $slug)->firstOrFail();
         return view('master.gedung.edit', compact('gedung'));
     }

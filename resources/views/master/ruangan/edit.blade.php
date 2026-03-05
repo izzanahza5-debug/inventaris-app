@@ -8,6 +8,16 @@
         --soft-bg: #f8fafc;
     }
 
+    #bg-alert{
+        background-color: var(--soft-bg);
+    }
+    #border-alert{
+        border: var(--teal-primary);
+    }
+    #text-alert{
+        color: solid var(--teal-dark);
+    }
+
     .edit-container {
         max-width: 800px;
         margin: 2rem auto;
@@ -172,9 +182,9 @@
             </div>
         </div>
 
-        <div class="mt-4 p-3 rounded-4 bg-primary bg-opacity-10 border border-primary border-opacity-10 d-flex align-items-center">
-            <i class="fa-solid fa-circle-info text-primary me-3 fs-4"></i>
-            <p class="mb-0 small text-primary">
+        <div style="background-color: #c2f9e9; border: 2px solid #1aa179;" class="mt-4 p-3 rounded-4 bg-alert bg-opacity-10 border border-alert border-opacity-10 d-flex align-items-center">
+            <i style="color: #1aa179" id="text-alert" class="fa-solid fa-circle-info text-alert me-3 fs-4"></i>
+            <p style="color: #1aa179" id="text-alert" class="mb-0 small text-alert">
                 Perubahan nama ruangan akan otomatis terupdate pada semua <strong>Aset/Barang</strong> yang terdaftar di ruangan ini.
             </p>
         </div>

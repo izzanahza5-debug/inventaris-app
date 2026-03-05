@@ -141,7 +141,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('master.gedung.edit', $g->slug) }}" class="action-icon btn-edit text-primary shadow-sm" title="Ubah">
+                                    <a href="{{ route('master.gedung.edit', $g->slug) }}" style="color: #0cbc87" class="action-icon btn-edit shadow-sm" title="Ubah">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form action="{{ route('master.gedung.destroy', $g->id) }}" method="POST" class="d-inline">
