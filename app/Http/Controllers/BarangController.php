@@ -184,7 +184,7 @@ public function cetakLabelSatuan($id)
     $pdf = Pdf::loadView('barang.label_pdf', compact('barangs'))
               ->setPaper([0, 0, 283.46, 141.73], 'portrait'); // Contoh ukuran custom (10x5 cm) atau pakai 'a4'
 
-    return $pdf->stream('Label-' . $barang->no_inventaris . '.pdf');
+    return $pdf->download('Label-' . now()->format('d-m-Y'). '.pdf');
 }
 
     public function showPublic($slug)

@@ -11,17 +11,18 @@ use App\Http\Controllers\Master\KategoriController;
 use App\Http\Controllers\Master\RoleController;
 use App\Http\Controllers\Master\RuanganController;
 use App\Http\Controllers\Master\SumberDanaController;
+use App\Http\Controllers\PengajuanController;
 
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Halaman akses publik/guest)
 |--------------------------------------------------------------------------
 */
+Route::redirect('/', '/login');
 Route::get('/login', [AuthController::class, 'index'])
     ->name('login')
     ->middleware('redirectIfLogin');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 /*
@@ -60,6 +61,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('role', RoleController::class);
     // Route::middleware(['role:admin'])->group(function () {
     // });
+
+    // 5. Pengajuan Barang
+    Route::resource('pengajuan', PengajuanController::class);
+    // Route khusus update status oleh Admin
+    Route::patch('/pengajuan/{pengajuan}/status', [PengajuanController::class, 'updateStatus'])->name('pengajuan.update-status');
+    Route::get('/pengajuan/{pengajuan}/cetak', [PengajuanController::class, 'cetakPdf'])->name('pengajuan.cetak');
 });
 
 Route::get('/{slug}', [App\Http\Controllers\BarangController::class, 'showPublic'])->name('barang.show-public');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+

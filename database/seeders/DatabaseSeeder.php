@@ -4,50 +4,126 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Jenjang;
 use App\Models\Kategori;
 use App\Models\Gedung;
+use App\Models\Ruangan;
 use App\Models\SumberDana;
 use App\Models\Barang;
-use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
- public function run(): void
+    public function run()
     {
-        // 1. Buat Role Standar Terlebih Dahulu
-        $roleAdmin = Role::create(['nama_role' => 'Administrator', 'slug' => 'admin']);
-        $roleIt    = Role::create(['nama_role' => 'IT Support', 'slug' => 'it']);
-        $roleUmum  = Role::create(['nama_role' => 'Umum', 'slug' => 'umum']);
-
-        // 2. Buat Akun Admin Utama (Untuk kamu login pertama kali)
-        User::create([
-            'name'     => 'Admin Utama',
-            'username' => 'admin',
-            'password' => Hash::make('admin123'), // Password: admin123
-            'role_id'  => $roleAdmin->id,
-        ]);
-
-        // 3. Buat 9 Akun Sampel Tambahan (Total 10 dengan Admin)
-        $dataUser = [
-            ['name' => 'Budi IT', 'user' => 'budi_it', 'role' => $roleIt],
-            ['name' => 'Andi IT', 'user' => 'andi_it', 'role' => $roleIt],
-            ['name' => 'Siska Umum', 'user' => 'siska_umum', 'role' => $roleUmum],
-            ['name' => 'Rudi Umum', 'user' => 'rudi_umum', 'role' => $roleUmum],
-            ['name' => 'Dewi IT', 'user' => 'dewi_it', 'role' => $roleIt],
-            ['name' => 'Maya Umum', 'user' => 'maya_umum', 'role' => $roleUmum],
-            ['name' => 'Fajar IT', 'user' => 'fajar_it', 'role' => $roleIt],
-            ['name' => 'Rina Umum', 'user' => 'rina_umum', 'role' => $roleUmum],
-            ['name' => 'Hendra Umum', 'user' => 'hendra_umum', 'role' => $roleUmum],
+        // 1. Seed Roles
+        $roles = [
+            ['nama_role' => 'Administrator', 'slug' => 'admin'],
+            ['nama_role' => 'IT Support', 'slug' => 'it'],
+            ['nama_role' => 'Staf Sarpras', 'slug' => 'sarpras'],
+            ['nama_role' => 'Kepala Ruangan', 'slug' => 'umum'],
+            ['nama_role' => 'Bendahara', 'slug' => 'bendahara'],
         ];
+        foreach ($roles as $r) {
+            Role::create($r);
+        }
 
-        foreach ($dataUser as $data) {
+        // 2. Seed Users
+        $adminRole = Role::where('slug', 'admin')->first();
+        for ($i = 1; $i <= 5; $i++) {
             User::create([
-                'name'     => $data['name'],
-                'username' => $data['user'],
-                'password' => Hash::make('password'), // Password default: password
-                'role_id'  => $data['role']->id,
+                'name' => "User Petugas $i",
+                'username' => "petugas$i",
+                'password' => Hash::make('password'),
+                'role_id' => $adminRole->id,
+            ]);
+        }
+
+        // 3. Seed Jenjang
+        $jenjangs = ['SD', 'SMP', 'SMA', 'SMK', 'Universitas'];
+        foreach ($jenjangs as $j) {
+            Jenjang::create([
+                'kode_jenjang' => strtoupper(Str::random(3)),
+                'nama_jenjang' => $j,
+                'slug' => Str::slug($j),
+            ]);
+        }
+
+        // 4. Seed Kategori (Kode Barang)
+        $kategoris = [
+            ['nama' => 'Elektronik', 'kode' => 'ELK'],
+            ['nama' => 'Mebel', 'kode' => 'MBL'],
+            ['nama' => 'Alat Olahraga', 'kode' => 'OLR'],
+            ['nama' => 'Buku Perpustakaan', 'kode' => 'BKS'],
+            ['nama' => 'Kendaraan', 'kode' => 'KND'],
+        ];
+        foreach ($kategoris as $k) {
+            Kategori::create([
+                'kode_kategori' => $k['kode'],
+                'nama_kategori' => $k['nama'],
+                'slug' => Str::slug($k['nama']),
+            ]);
+        }
+
+        // 5. Seed Gedung
+        $gedungs = ['Gedung A', 'Gedung B', 'Gedung C', 'Lab Terpadu', 'Sport Hall'];
+        foreach ($gedungs as $g) {
+            Gedung::create([
+                'kode_gedung' => strtoupper(Str::random(2)),
+                'nama_gedung' => $g,
+                'slug' => Str::slug($g),
+            ]);
+        }
+
+        // 6. Seed Ruangan (Tergantung Gedung)
+        $allGedungs = Gedung::all();
+        foreach ($allGedungs as $gedung) {
+            for ($i = 1; $i <= 2; $i++) {
+                Ruangan::create([
+                    'gedung_id' => $gedung->id,
+                    'nama_ruangan' => "Ruang " . $gedung->nama_gedung . " - 0$i",
+                ]);
+            }
+        }
+
+        // 7. Seed Sumber Dana
+        $sumber = ['BOS Reguler', 'BOS Daerah', 'Yayasan', 'Hibah Pemerintah', 'Iuran Komite'];
+        foreach ($sumber as $s) {
+            SumberDana::create([
+                'kode_sumber' => strtoupper(Str::random(3)),
+                'nama_sumber' => $s,
+                'slug' => Str::slug($s),
+            ]);
+        }
+
+        // 8. Seed Barang (Mengambil ID dari semua tabel di atas)
+        $faker = \Faker\Factory::create('id_ID');
+        $kategoriIds = Kategori::pluck('id')->toArray();
+        $jenjangIds = Jenjang::pluck('id')->toArray();
+        $sumberIds = SumberDana::pluck('id')->toArray();
+        $userIds = User::pluck('id')->toArray();
+
+        for ($i = 1; $i <= 10; $i++) {
+            // Ambil gedung random, lalu ambil ruangan yang ada di gedung tersebut
+            $randomGedung = Gedung::inRandomOrder()->first();
+            $randomRuang = Ruangan::where('gedung_id', $randomGedung->id)->inRandomOrder()->first();
+
+            Barang::create([
+                'user_id' => $faker->randomElement($userIds),
+                'jenjang_id' => $faker->randomElement($jenjangIds),
+                'kategori_id' => $faker->randomElement($kategoriIds),
+                'gedung_id' => $randomGedung->id,
+                'ruang_id' => $randomRuang->id,
+                'sumber_dana_id' => $faker->randomElement($sumberIds),
+                'no_inventaris' => 'INV-' . strtoupper(Str::random(8)),
+                'nama_barang' => $faker->randomElement(['Laptop ASUS', 'Kursi Guru', 'Meja Siswa', 'Proyektor BenQ', 'Printer Epson']),
+                'kondisi' => $faker->randomElement(['Baik', 'Rusak Ringan', 'Rusak Berat']),
+                'tanggal_perolehan' => $faker->date(),
+                'harga_barang' => $faker->numberBetween(100000, 15000000),
+                'keterangan' => 'Data dummy untuk testing sistem.',
+                'foto_barang' => null,
             ]);
         }
     }

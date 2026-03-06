@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             
             // Relasi ke Data Master (Komponen pembentuk No. Inventaris)
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('jenjang_id')->constrained('jenjangs')->onDelete('cascade');
             $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade'); // Kode Barang
             $table->foreignId('gedung_id')->constrained('gedungs')->onDelete('cascade');

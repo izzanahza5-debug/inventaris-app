@@ -15,37 +15,37 @@
             overflow-x: hidden;
         }
 
-/* Sidebar Styling */
-.sidebar {
-    height: 100%;
-    background: #212529;
-    color: white;
-    width: 260px;
-    position: fixed;
-    transition: all 0.3s ease-in-out;
-    z-index: 1000;
-    /* TAMBAHKAN DUA BARIS INI */
-    overflow-y: auto; 
-    
-}
+        /* Sidebar Styling */
+        .sidebar {
+            height: 100%;
+            background: #212529;
+            color: white;
+            width: 260px;
+            position: fixed;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+            /* TAMBAHKAN DUA BARIS INI */
+            overflow-y: auto;
 
-/* OPSIONAL: Mempercantik Scrollbar agar terlihat modern (untuk Chrome, Safari, Edge) */
-.sidebar::-webkit-scrollbar {
-    width: 5px;
-}
+        }
 
-.sidebar::-webkit-scrollbar-track {
-    background: #212529;
-}
+        /* OPSIONAL: Mempercantik Scrollbar agar terlihat modern (untuk Chrome, Safari, Edge) */
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
 
-.sidebar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
+        .sidebar::-webkit-scrollbar-track {
+            background: #212529;
+        }
 
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
 
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.7);
@@ -204,121 +204,127 @@
 
 <body>
     @auth
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div  class="sidebar d-flex flex-column shadow" id="sidebar">
-        <div  class="p-4 text-center position-relative">
-            <h4 class="fw-bold tracking-tight text-white mb-0">INV-SCHOOL</h4>
-            <small class="text-muted text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Sistem
-                Inventaris</small>
+        <div class="sidebar d-flex flex-column shadow" id="sidebar">
+            <div class="p-4 text-center position-relative">
+                <h4 class="fw-bold tracking-tight text-white mb-0">INV-SCHOOL</h4>
+                <small class="text-muted text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Sistem
+                    Inventaris</small>
 
-            <button
-                class="btn btn-link text-white d-lg-none position-absolute top-0 end-0 mt-3 me-2 text-decoration-none"
-                id="closeSidebarBtn">
-                <i class="fa-solid fa-xmark fs-5"></i>
-            </button>
-        </div>
+                <button
+                    class="btn btn-link text-white d-lg-none position-absolute top-0 end-0 mt-3 me-2 text-decoration-none"
+                    id="closeSidebarBtn">
+                    <i class="fa-solid fa-xmark fs-5"></i>
+                </button>
+            </div>
 
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
-                    <i class="fa-solid fa-gauge-high me-2"></i> Dashboard
-                </a>
-            </li>
-
-            @if (Auth::check() && Auth::user()->role->slug === 'admin')
+            <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user*') ? 'active' : '' }}">
-                        <i class="fa-solid fa-user-gear me-2"></i> Kelola User
+                    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
+                        <i class="fa-solid fa-gauge-high me-2"></i> Dashboard
                     </a>
                 </li>
 
+                @if (Auth::check() && Auth::user()->role->slug === 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-user-gear me-2"></i> Kelola User
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('role.index') }}" class="nav-link {{ request()->is('role*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-user-shield me-2"></i>Kelola Role
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center {{ request()->is('master*') ? 'active' : '' }}"
+                            data-bs-toggle="collapse" href="#menuMaster" role="button"
+                            aria-expanded="{{ request()->is('master*') ? 'true' : 'false' }}">
+                            <i class="fa-solid fa-database me-2"></i>
+                            <span>Data Master</span>
+                            <i class="fa-solid fa-chevron-down ms-auto mt-1 small transition-icon"></i>
+                        </a>
+                        <div class="collapse {{ request()->is('master*') ? 'show' : '' }}" id="menuMaster">
+                            <ul class="nav flex-column nav-tree mt-1">
+                                <li>
+                                    <a href="{{ route('master.jenjang.index') }}"
+                                        class="nav-link {{ request()->is('master/jenjang*') ? 'aktif text-white fw-bold' : '' }}">
+                                        <i class="fa-solid fa-layer-group me-2" style="font-size: 0.8rem;"></i> Master
+                                        Jenjang
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('master.kategori.index') }}"
+                                        class="nav-link {{ request()->is('master/kategori*') ? 'aktif text-white fw-bold' : '' }}">
+                                        <i class="fa-solid fa-tag me-2" style="font-size: 0.8rem;"></i> Kode Barang
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('master.gedung.index') }}"
+                                        class="nav-link {{ request()->is('master/gedung*') ? 'aktif text-white fw-bold' : '' }}">
+                                        <i class="fa-solid fa-building me-2" style="font-size: 0.8rem;"></i> Master Gedung
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('master.ruangan.index') }}"
+                                        class="nav-link {{ request()->is('master/ruangan*') ? 'aktif text-white fw-bold' : '' }}">
+                                        <i class="fa-solid fa-door-open me-2" style="font-size: 0.8rem;"></i> Master Ruangan
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('master.sumber-dana.index') }}"
+                                        class="nav-link {{ request()->is('master/sumber-dana*') ? 'aktif text-white fw-bold' : '' }}">
+                                        <i class="fa-solid fa-wallet me-2" style="font-size: 0.8rem;"></i> Data Pembelian
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+
+
                 <li class="nav-item">
-                    <a href="{{ route('role.index') }}" class="nav-link {{ request()->is('role*') ? 'active' : '' }}">
-                        <i class="fa-solid fa-user-shield me-2"></i>Kelola Role
+                    <a href="{{ route('barang.index') }}" class="nav-link {{ request()->is('barang*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-boxes-stacked me-2"></i> Kelola Barang
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('pengajuan.index') }}"
+                        class="nav-link {{ request()->is('pengajuan*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-file-invoice-dollar me-2"></i> Pengajuan Barang
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center {{ request()->is('master*') ? 'active' : '' }}"
-                        data-bs-toggle="collapse" href="#menuMaster" role="button"
-                        aria-expanded="{{ request()->is('master*') ? 'true' : 'false' }}">
-                        <i class="fa-solid fa-database me-2"></i>
-                        <span>Data Master</span>
-                        <i class="fa-solid fa-chevron-down ms-auto mt-1 small transition-icon"></i>
-                    </a>
-                    <div class="collapse {{ request()->is('master*') ? 'show' : '' }}" id="menuMaster">
-                        <ul class="nav flex-column nav-tree mt-1">
-                            <li>
-                                <a href="{{ route('master.jenjang.index') }}"
-                                    class="nav-link {{ request()->is('master/jenjang*') ? 'aktif text-white fw-bold' : '' }}">
-                                    <i class="fa-solid fa-layer-group me-2" style="font-size: 0.8rem;"></i> Master
-                                    Jenjang
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('master.kategori.index') }}"
-                                    class="nav-link {{ request()->is('master/kategori*') ? 'aktif text-white fw-bold' : '' }}">
-                                    <i class="fa-solid fa-tag me-2" style="font-size: 0.8rem;"></i> Kode Barang
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('master.gedung.index') }}"
-                                    class="nav-link {{ request()->is('master/gedung*') ? 'aktif text-white fw-bold' : '' }}">
-                                    <i class="fa-solid fa-building me-2" style="font-size: 0.8rem;"></i> Master Gedung
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('master.ruangan.index') }}"
-                                    class="nav-link {{ request()->is('master/ruangan*') ? 'aktif text-white fw-bold' : '' }}">
-                                    <i class="fa-solid fa-door-open me-2" style="font-size: 0.8rem;"></i> Master Ruangan
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('master.sumber-dana.index') }}"
-                                    class="nav-link {{ request()->is('master/sumber-dana*') ? 'aktif text-white fw-bold' : '' }}">
-                                    <i class="fa-solid fa-wallet me-2" style="font-size: 0.8rem;"></i> Data Pembelian
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            @endif
-
-
-            <li class="nav-item">
-                <a href="{{ route('barang.index') }}" class="nav-link {{ request()->is('barang*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-boxes-stacked me-2"></i> Kelola Barang
-                </a>
-            </li>
-
-            {{-- <li class="nav-item">
+                {{-- <li class="nav-item">
             <a href="{{ route('laporan.index') }}" class="nav-link {{ request()->is('laporan*') ? 'active' : '' }}">
                 <i class="fa-solid fa-clipboard-list me-2"></i> Rekap Laporan
             </a>
         </li> --}}
-        </ul>
+            </ul>
 
-        <div class="logout-section mt-auto border-top border-secondary">
-            <a href="{{ route('logout') }}" class="nav-link text-danger mt-3"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
+            <div class="logout-section mt-auto border-top border-secondary">
+                <a href="{{ route('logout') }}" class="nav-link text-danger mt-3"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
         </div>
-    </div>
     @endauth
     <div class="main-content">
         @auth
-            
-        <div class="d-lg-none d-flex align-items-center mb-4">
-            <button class="btn-mobile-toggle me-3" id="openSidebarBtn">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <h5 class="mb-0 fw-bold text-dark">Menu Navigasi</h5>
-        </div>
+
+            <div class="d-lg-none d-flex align-items-center mb-4">
+                <button class="btn-mobile-toggle me-3" id="openSidebarBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h5 class="mb-0 fw-bold text-dark">Menu Navigasi</h5>
+            </div>
         @endauth
 
         <div class="container-fluid p-0">
@@ -332,7 +338,7 @@
                             <span>&copy; {{ date('Y') }} All Rights Reserved.</span>
                         </div>
 
-            {{-- <div class="d-none d-md-block">
+                        {{-- <div class="d-none d-md-block">
                 <span class="footer-status-indicator"></span>
                 <small class="text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">System Operational</small>
             </div>
