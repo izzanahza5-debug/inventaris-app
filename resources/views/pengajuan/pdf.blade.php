@@ -24,10 +24,12 @@
         /* Footer/Total */
         .total-row { background-color: #eef2f7 !important; font-weight: bold; }
         
-        /* TTD */
-        .ttd-container { margin-top: 50px; width: 100%; }
-        .ttd-box { width: 250px; float: right; text-align: center; }
-        .signature-space { height: 70px; }
+        /* TTD Section */
+        .date-container { text-align: right; margin-top: 40px; margin-bottom: 10px; }
+        .ttd-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .ttd-table td { width: 33.3%; text-align: center; vertical-align: top; padding-top: 20px; }
+        .signature-space { height: 80px; }
+        .name-line { font-weight: bold; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -71,13 +73,28 @@
         </tfoot>
     </table>
 
-    <div class="ttd-container">
-        <div class="ttd-box">
-            <p>Pekalongan, {{ date('d F Y') }}</p>
-            <p>Pemohon,</p>
-            <div class="signature-space"></div>
-            <p><strong>( {{ $pengajuan->user->name }} )</strong></p>
-        </div>
+    <div class="date-container">
+        Pekalongan, {{ date('d F Y') }}
     </div>
+
+    <table class="ttd-table">
+        <tr>
+            <td>
+                <p>Pemohon,</p>
+                <div class="signature-space"></div>
+                <p class="name-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            </td>
+            <td>
+                <p>Keuangan,</p>
+                <div class="signature-space"></div>
+                <p class="name-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            </td>
+            <td>
+                <p>Bendahara,</p>
+                <div class="signature-space"></div>
+                <p class="name-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

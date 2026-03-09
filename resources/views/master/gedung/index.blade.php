@@ -124,7 +124,7 @@
                         <tr>
                             <th class="text-center px-4" width="80">No</th>
                             <th class="text-center">Kode Gedung</th>
-                            <th>Nama Gedung / Lokasi</th>
+                            <th>Nama Gedung</th>
                             <th class="text-center" width="150">Aksi</th>
                         </tr>
                     </thead>

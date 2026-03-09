@@ -44,15 +44,20 @@
             border-radius: 15px;
             padding: 20px;
         }
+         @media (max-width: 499px){
+            .back{
+                width: 100%;
+            }
+         }
     </style>
 
     <div class="container-fluid px-4">
-        <div class="mb-4 d-flex align-items-center justify-content-between">
+        <div class="mb-4 d-flex flex-wrap align-items-center justify-content-between">
             <div>
                 <h3 class="fw-bold text-dark mb-1">Buat Pengajuan Baru</h3>
                 <p class="text-muted small">Silakan isi daftar barang yang ingin diajukan.</p>
             </div>
-            <a href="{{ route('pengajuan.index') }}" class="btn btn-outline-secondary rounded-pill px-4">
+            <a href="{{ route('pengajuan.index') }}" class="btn back btn-outline-secondary rounded-pill px-4">
                 <i class="fa-solid fa-arrow-left me-2"></i> Kembali
             </a>
         </div>
@@ -62,10 +67,10 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="form-section">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="d-flex justify-content-between flex-wrap gap-2 align-items-center mb-4">
                             <h5 class="fw-bold mb-0"><i class="fa-solid fa-list-check me-2 text-primary"></i> Daftar Barang
                             </h5>
-                            <button type="button" class="btn btn-sm btn-primary rounded-pill px-3" id="add-item">
+                            <button type="button" class="btn back btn-sm total-card fw-semibold py-2 rounded-pill px-3" id="add-item">
                                 <i class="fa-solid fa-plus me-1"></i> Tambah Item
                             </button>
                         </div>
@@ -103,13 +108,12 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm rounded-4 sticky-top" style="top: 20px;">
+                    <div class="card border-0 my-2 shadow-sm rounded-4 sticky-top" style="top: 20px;">
                         <div class="card-body p-4">
                             <div class="mb-4">
                                 <label class="form-label fw-bold text-dark">Pilih Jenjang</label>
                                 <select name="jenjang_id"
                                     class="form-select form-select-lg rounded-3 @error('jenjang_id') is-invalid @enderror">
-                                    <option value="" selected disabled>-- Pilih Jenjang --</option>
                                     @foreach ($jenjangs as $jenjang)
                                         <option value="{{ $jenjang->id }}"
                                             {{ old('jenjang_id') == $jenjang->id ? 'selected' : '' }}>

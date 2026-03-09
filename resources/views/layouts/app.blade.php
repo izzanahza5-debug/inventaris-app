@@ -209,8 +209,8 @@
         <div class="sidebar d-flex flex-column shadow" id="sidebar">
             <div class="p-4 text-center position-relative">
                 <h4 class="fw-bold tracking-tight text-white mb-0">INV-SCHOOL</h4>
-                <small class="text-muted text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Sistem
-                    Inventaris</small>
+                <small class=" text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Sistem
+                    Inventaris Sekolah</small>
 
                 <button
                     class="btn btn-link text-white d-lg-none position-absolute top-0 end-0 mt-3 me-2 text-decoration-none"

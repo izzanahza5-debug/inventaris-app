@@ -39,7 +39,7 @@ private function filterQuery(Request $request)
 
 public function index(Request $request)
 {
-    $gedungs = Gedung::all();
+    $gedungs = Gedung::get();
     // Ambil query dari fungsi private, lalu tambahkan paginate
     $barangs = $this->filterQuery($request)
     ->dataByRole()
@@ -73,8 +73,9 @@ public function index(Request $request)
             'tanggal_perolehan' => 'required|date',
             'harga_barang' => 'required|numeric',
             'kondisi' => 'required',
-            'foto_barang' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto_barang' => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
+        // dd($request->all());
 
         $data = $request->all();
         $data['user_id'] = Auth()->id();
@@ -124,8 +125,10 @@ public function index(Request $request)
         return redirect()->route('barang.index')->with('success', 'Data barang berhasil diperbarui!');
     }
 
-    public function destroy(Barang $barang)
-    {
+    public function destroy( $id)
+    {   
+        $barang = Barang::where('id', $id)->firstOrFail();
+        // dd($barang);
         if ($barang->foto_barang) {
             Storage::disk('public')->delete($barang->foto_barang);
         }
@@ -146,7 +149,7 @@ public function exportPdf(Request $request)
         
         // Load view yang sudah kita buat tadi
         $pdf = Pdf::loadView('barang.pdf', compact('barangs'))
-                  ->setPaper('a4', 'potrait'); // Landscape agar tabel lega
+                  ->setPaper('a4', 'landscape'); // Landscape agar tabel lega
 
         return $pdf->download('Laporan_Inventaris_'.now()->format('d-m-Y').'.pdf');
     }

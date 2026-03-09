@@ -215,7 +215,7 @@
                     <div class="col-lg-2 col-md-3">
                         <a href="{{ route('barang.index') }}"
                             class="btn btn-light w-100 rounded-4 d-flex align-items-center justify-content-center fw-bold"
-                            style="height: 48px; border: 2px solid #f1f5f9;">
+                            style="height: 48px; border: 2px solid #d7d7d7;">
                             Reset
                         </a>
                     </div>

@@ -18,8 +18,8 @@ public function login(Request $request)
 {
     // 1. Validasi Input
     $credentials = $request->validate([
-        'username' => ['required', 'string'],
-        'password' => ['required'],
+        'username' => 'required|string',
+        'password' => 'required',
     ]);
 
     $remember = $request->has('remember');
@@ -44,11 +44,11 @@ public function login(Request $request)
     ])->onlyInput('username');
 }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/login');
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login ');
     }
 }

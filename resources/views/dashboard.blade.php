@@ -72,7 +72,7 @@
     </div>
 
     <div class="row g-4 mb-5">
-        <div class="col-12 col-md-6 col-xl-3">
+        <div class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-blue text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Total Barang</h6>
@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
+        <div class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-purple text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Kategori Barang</h6>
@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
+        <div class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-teal text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Lokasi / Gedung</h6>
@@ -111,7 +111,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
+        <div class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-dark text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Pengguna Sistem</h6>
@@ -130,7 +130,7 @@
             <div class="card dashboard-card bg-white shadow-sm border-0 ">
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
                     <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-clock-rotate-left text-primary me-2"></i> Barang Terakhir Ditambahkan</h5>
-                    <a href="{{ route('barang.index') }}" class="btn btn-sm btn-light rounded-pill px-3 text-primary fw-bold">Lihat Semua</a>
+                    <a href="{{ route('barang.index') }}" class="btn btn-sm btn-light border-primary rounded-pill px-3 text-primary fw-bold">Lihat Semua</a>
                 </div>
                 <div class="card-body p-4">
                     <div class="table-responsive">
@@ -203,7 +203,7 @@
                     @if (Auth::user()->role->nama_role == 'Administrator')
                         
                     <a href="{{ route('master.kategori.index') }}" class="btn btn-quick-action w-100 text-start text-dark text-decoration-none d-flex align-items-center mb-2">
-                        <div class="bg-purple bg-opacity-10 text-purple rounded p-2 me-3" style="color: #6610f2;">
+                        <div class=" rounded p-2 me-3" style="background-color:#e4d8f8; color: #6610f2;">
                             <i class="fa-solid fa-tags fa-fw"></i>
                         </div>
                         <div>

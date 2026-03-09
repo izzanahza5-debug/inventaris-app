@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class PengajuanController extends Controller
 {
@@ -39,7 +40,7 @@ public function index(Request $request)
     }
 
     // 5. Eksekusi query
-    $pengajuans = $query->get();
+    $pengajuans = $query->latest()->paginate(5);
 
     // 6. Ambil data master jenjang untuk ditampilkan di dropdown filter
     $jenjangs = Jenjang::all();
@@ -71,9 +72,9 @@ public function index(Request $request)
             DB::beginTransaction();
 
             // 1. Generate Nomor Pengajuan Otomatis (Contoh: REQ-20240306-0001)
-            $today = Carbon::now()->format('Ymd');
+            $today = Carbon::now()->format('Y');
             $count = Pengajuan::whereDate('created_at', Carbon::today())->count();
-            $no_pengajuan = 'REQ-' . $today . '-' . str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+            $no_pengajuan = 'INV-' . $today . '-' . str_pad($count + 1, 4, '0', STR_PAD_LEFT);
 
             // 2. Simpan Header Pengajuan
             $pengajuan = Pengajuan::create([
@@ -215,6 +216,29 @@ public function index(Request $request)
     {
         $pengajuan->load(['user', 'details']);
         $pdf = Pdf::loadView('pengajuan.pdf', compact('pengajuan'));
-        return $pdf->setPaper('a4', 'portrait')->stream('Pengajuan_' . $pengajuan->no_pengajuan . '.pdf');
+        return $pdf->setPaper('a4', 'portrait')->download('Pengajuan_' . $pengajuan->no_pengajuan . '.pdf');
     }
+
+    public function uploadNota(Request $request, $id)
+{
+    $request->validate([
+        'nota' => 'required|image|mimes:jpg,png|max:5120', // 5MB
+    ]);
+
+    $detail = PengajuanDetail::findOrFail($id);
+    
+    if ($request->hasFile('nota')) {
+        // Hapus nota lama jika ada
+        if ($detail->nota) {
+            Storage::delete('public/nota/' . $detail->nota);
+        }
+
+        $fileName = time() . '_' . $detail->id . '.' . $request->nota->extension();
+        $request->nota->storeAs('public/nota', $fileName);
+        
+        $detail->update(['nota' => $fileName]);
+    }
+
+    return back()->with('success', 'Nota berhasil diunggah!');
+}
 }

@@ -64,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
 
     // 5. Pengajuan Barang
     Route::resource('pengajuan', PengajuanController::class);
+    // Route untuk upload nota per item barang
+Route::post('/pengajuan/detail/{id}/upload-nota', [App\Http\Controllers\PengajuanController::class, 'uploadNota'])->name('pengajuan.uploadNota');
     // Route khusus update status oleh Admin
     Route::patch('/pengajuan/{pengajuan}/status', [PengajuanController::class, 'updateStatus'])->name('pengajuan.update-status');
     Route::get('/pengajuan/{pengajuan}/cetak', [PengajuanController::class, 'cetakPdf'])->name('pengajuan.cetak');

@@ -6,184 +6,321 @@
     <title>Login | INV-SCHOOL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary-color: #3a30f4; /* Indigo / Futuristic Blue */
+            --primary-hover: #685ddf;
+            --bg-light: #f3f4f6;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #fdfdfd;
-            height: 100vh;
+            background-color: var(--bg-light);
+            min-height: 100vh;
             margin: 0;
+            overflow-x: hidden;
+        }
+
+        .login-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* --- SISI KIRI: BRANDING --- */
+        .brand-section {
+            background: linear-gradient(135deg, #504bccbb 0%, var(--primary-color) 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 40px;
             overflow: hidden;
         }
 
-        .login-container {
-            height: 100vh;
-        }
-
-        /* Sisi Kiri: Ilustrasi & Brand */
-        .login-sidebar {
-            background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 60px;
-            position: relative;
-        }
-
-        .login-sidebar::before {
+        /* Ornamen Futuristik (Grid & Glow) */
+        .brand-section::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://www.transparenttextures.com/patterns/cubes.png');
-            opacity: 0.1;
+            width: 150%;
+            height: 150%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transform: rotate(-15deg);
+            z-index: 1;
         }
 
-        /* Sisi Kanan: Form Login */
-        .login-form-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 80px;
-            background: white;
+        .brand-section::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            filter: blur(60px);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 400px;
         }
 
         .brand-logo {
-            width: 60px;
-            height: 60px;
-            background: rgba(255,255,255,0.2);
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-badge {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        /* --- SISI KANAN: FORM --- */
+        .form-section {
+            background-color: var(--bg-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            padding: 40px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            max-width: 450px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        /* Style Input Modern */
+        .input-group-custom {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group-custom label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+            letter-spacing: 0.5px;
         }
 
         .form-control-custom {
-            border: 1.5px solid #eaecf0;
-            border-radius: 12px;
-            padding: 12px 16px;
+            width: 100%;
+            background: #f9fafb;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            padding: 14px 16px;
             font-size: 1rem;
-            transition: all 0.2s;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        .form-control-custom::placeholder {
+            color: #9ca3af;
         }
 
         .form-control-custom:focus {
-            border-color: #4e73df;
-            box-shadow: 0 0 0 4px rgba(78, 115, 223, 0.1);
+            background: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
             outline: none;
         }
 
-        .btn-login {
-            background: #4e73df;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 14px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-        }
-
-        .btn-login:hover {
-            background: #2e59d9;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(78, 115, 223, 0.25);
-        }
-
-        .input-icon {
+        .input-icon-wrapper {
             position: relative;
         }
 
-        .input-icon i {
+        .input-icon-wrapper .toggle-password {
             position: absolute;
             right: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #98a2b3;
+            color: #9ca3af;
             cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 5px;
         }
 
-        /* Responsif Mobile */
+        .input-icon-wrapper .toggle-password:hover {
+            color: var(--primary-color);
+        }
+
+        /* Tombol Login */
+        .btn-login {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-login:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+
+        /* --- RESPONSIVITAS MOBILE --- */
         @media (max-width: 991.98px) {
-            .login-sidebar { display: none; }
-            .login-form-section { padding: 40px 20px; }
-            body { overflow: auto; }
+            .login-wrapper {
+                flex-direction: column;
+            }
+
+            .brand-section {
+                padding: 60px 20px 80px 20px; /* Padding bawah lebih besar */
+                border-bottom-left-radius: 40px;
+                border-bottom-right-radius: 40px;
+                min-height: auto;
+            }
+
+            .brand-logo {
+                width: 60px; height: 60px;
+                margin-bottom: 15px;
+            }
+
+            .brand-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .brand-content p {
+                font-size: 1rem !important;
+            }
+
+            .form-section {
+                padding: 0 20px 40px 20px;
+                background: transparent;
+                margin-top: -60px; /* Form naik menimpa header */
+                position: relative;
+                z-index: 10;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container-fluid p-0">
-    <div class="row g-0 login-container">
-        <div class="col-lg-6 login-sidebar">
-            <div class="brand-logo shadow-sm">
-                <i class="fa-solid fa-boxes-stacked fa-2x"></i>
+<div class="login-wrapper">
+    <div class="col-lg-5 brand-section">
+        <div class="brand-content">
+            <div class="brand-logo">
+                <i class="fa-solid fa-boxes-stacked fa-2x text-white"></i>
             </div>
             <h1 class="fw-bold mb-3">INV-SCHOOL</h1>
-            <p class="text-center opacity-75 fs-5">"Kelola aset sekolah lebih rapi, terstruktur, dan transparan dalam satu platform modern."</p>
-            <div class="mt-4 p-3 bg-white bg-opacity-10 rounded-4 border border-white border-opacity-25 small">
+            <p class="text-center text-white-50 fs-6 mb-0">Kelola aset sekolah lebih rapi, terstruktur, dan transparan dalam satu platform modern.</p>
+            
+            <div class="glass-badge">
                 <i class="fa-solid fa-shield-halved me-2"></i> Sistem Keamanan Terenkripsi
             </div>
         </div>
+    </div>
 
-        <div class="col-lg-6 login-form-section">
-            <div class="mx-auto" style="max-width: 400px; width: 100%;">
-                <div class="mb-5">
-                    <h2 class="fw-bold text-dark mb-2">Selamat Datang 👋</h2>
-                    <p class="text-muted">Silakan masukkan akun Anda untuk mulai mengelola inventaris.</p>
-                </div>
-
-                @if($errors->any())
-                    <div class="alert alert-danger border-0 rounded-3 small mb-4">
-                        <i class="fa-solid fa-circle-exclamation me-2"></i> {{ $errors->first() }}
-                    </div>
-                @endif
-
-                <form action="{{ route('login') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">USERNAME</label>
-                        <input type="text" name="username" class="form-control-custom w-100" placeholder="Masukkan username" required autofocus>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">PASSWORD</label>
-                        <div class="input-icon">
-                            <input type="password" name="password" id="password" class="form-control-custom w-100" placeholder="••••••••" required>
-                            <i class="fa-solid fa-eye" id="togglePassword"></i>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                            <label class="form-check-label small text-muted" for="remember">Ingat saya di perangkat ini</label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-login w-100 mb-1">
-                        Masuk ke Dashboard <i class="fa-solid fa-arrow-right ms-2"></i>
-                    </button>
-                </form>
-
-                <div class="text-center text-muted small mt-1">
-                    Butuh bantuan akses? <a href="#" class="text-primary fw-bold text-decoration-none">Hubungi IT Support</a>
-                </div>
+    <div class="col-lg-7 form-section">
+        <div class="form-card">
+            <div class="mb-4">
+                <h2 class="fw-bold text-dark mb-2">Selamat Datang 👋</h2>
+                <p class="text-muted">Silakan masuk ke akun Anda untuk mengelola inventaris.</p>
             </div>
+
+            @if($errors->any())
+                <div class="alert alert-danger border-0 rounded-3 small mb-4 bg-danger text-white bg-opacity-75">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i> {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
+                
+                <div class="input-group-custom">
+                    <label for="username">USERNAME</label>
+                    <input type="text" name="username" id="username" class="form-control-custom" placeholder="Masukkan username Anda" required autofocus>
+                </div>
+
+                <div class="input-group-custom">
+                    <div class="d-flex justify-content-between">
+                        <label for="password">PASSWORD</label>
+                        </div>
+                    <div class="input-icon-wrapper">
+                        <input type="password" name="password" id="password" class="form-control-custom" placeholder="••••••••" required>
+                        <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" style="cursor: pointer;">
+                        <label class="form-check-label small text-muted" for="remember" style="cursor: pointer; padding-top: 2px;">
+                            Ingat saya di perangkat ini
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login w-100">
+                    Masuk ke Dashboard <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
+    // Script Toggle Password
     const togglePassword = document.querySelector('#togglePassword');
     const password = document.querySelector('#password');
 
     togglePassword.addEventListener('click', function () {
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
+        
+        // Animasi icon ganti
+        this.classList.toggle('fa-eye');
         this.classList.toggle('fa-eye-slash');
     });
 </script>

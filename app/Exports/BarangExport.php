@@ -45,7 +45,7 @@ class BarangExport implements FromQuery, WithHeadings, WithMapping
             'Lokasi/Gedung',
             'Tanggal Perolehan',
             'Kondisi',
-            'Sumber Dana',
+            'Petugas',
         ];
     }
 
@@ -59,7 +59,7 @@ class BarangExport implements FromQuery, WithHeadings, WithMapping
             $barang->gedung->nama_gedung ?? '-',
             $barang->tanggal_perolehan ? $barang->tanggal_perolehan->format('d/m/Y') : '-',
             $barang->kondisi,
-            $barang->sumberDana->nama_sumber ?? '-',
+            $barang->user->name ?? '-',
         ];
     }
 }

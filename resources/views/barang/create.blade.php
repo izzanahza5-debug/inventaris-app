@@ -50,6 +50,12 @@
                     </div>
                 </div>
 
+                @if (session('error'))
+                    <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4 fade show" role="alert">
+                        <i class="fa-solid fa-check-circle me-2"></i> {{ session('error') }}
+                    </div>
+                @endif
+
                 <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
@@ -166,9 +172,9 @@
                             <div class="card border-0 shadow-sm rounded-4 p-4">
                                 <span class="form-section-title">FOTO BARANG (OPTIONAL)</span>
                                 <div class="input-group-custom">
-                                    <input type="file" name="foto_barang" accept="image/*">
+                                    <input type="file" name="foto_barang" accept="image/*" >
                                 </div>
-                                <small class="text-muted mt-2">Maksimal 2MB (Format: JPG, PNG)</small>
+                                <small class="text-muted mt-2">(Format: JPG, PNG)</small>
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-lg mt-4">
@@ -180,30 +186,29 @@
             </div>
         </div>
     </div>
-    
-    @endsection
-    
-    @section('scripts')
+@endsection
+
+@section('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const gedungSelect = document.getElementById('gedung_id');
             const ruanganSelect = document.getElementById('ruangan_id');
-    
+
             gedungSelect.addEventListener('change', function() {
                 const gedungId = this.value;
-                
+
                 // Reset Dropdown Ruangan
                 ruanganSelect.innerHTML = '<option value="">Sedang memuat...</option>';
                 ruanganSelect.disabled = true;
-    
+
                 if (gedungId) {
                     // Ambil data ruangan via Fetch API
                     fetch(`/api/ruangan/${gedungId}`)
                         .then(response => response.json())
                         .then(data => {
                             ruanganSelect.innerHTML = '<option value="">-- Pilih Ruangan --</option>';
-                            
-                            if(data.length > 0) {
+
+                            if (data.length > 0) {
                                 data.forEach(ruangan => {
                                     const option = document.createElement('option');
                                     option.value = ruangan.id;
@@ -212,7 +217,8 @@
                                 });
                                 ruanganSelect.disabled = false;
                             } else {
-                                ruanganSelect.innerHTML = '<option value="">Tidak ada ruangan di gedung ini</option>';
+                                ruanganSelect.innerHTML =
+                                    '<option value="">Tidak ada ruangan di gedung ini</option>';
                             }
                         })
                         .catch(error => {
@@ -226,4 +232,4 @@
             });
         });
     </script>
-    @endsection
+@endsection
