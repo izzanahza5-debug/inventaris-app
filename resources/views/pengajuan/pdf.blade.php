@@ -30,12 +30,21 @@
         .ttd-table td { width: 33.3%; text-align: center; vertical-align: top; padding-top: 20px; }
         .signature-space { height: 80px; }
         .name-line { font-weight: bold; text-decoration: underline; }
+        .logo {
+    float: left;
+    width: 60px; /* Sesuaikan ukuran logo */
+    height: auto;
+    margin-right: 15px;
+}
     </style>
 </head>
 <body>
-    <div class="header">
-        <h2>FORMULIR PENGAJUAN BARANG</h2>
-        <p>Nomor: {{ $pengajuan->no_pengajuan }} | Tanggal: {{ $pengajuan->tanggal_pengajuan->format('d/m/Y') }}</p>
+    <div class="header d-flex gap-2">
+        <img class="logo" src="{{ public_path('img/logo-alazhar.png') }}" alt="">
+        <div class="">
+            <h2>FORMULIR PENGAJUAN BARANG</h2>
+            <p>Nomor: {{ $pengajuan->no_pengajuan }} | Tanggal: {{ $pengajuan->tanggal_pengajuan->format('d/m/Y') }}</p>
+        </div>
     </div>
 
     <table class="info-table">

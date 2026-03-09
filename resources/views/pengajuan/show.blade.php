@@ -152,7 +152,7 @@
                                                             <i class="fa-solid fa-eye text-light"></i>
                                                         </a>
                                                     @else
-                                                        <button onclick="alert('Anda belum mengupload nota')"
+                                                        <button onclick="alert('Anda belum mengupload nota pembelian')"
                                                             class="btn my-1 btn-sm btn-secondary rounded-3 border-0">
                                                             <i class="fa-solid fa-eye-slash"></i>
                                                         </button>
@@ -190,9 +190,9 @@
                                                         @csrf
                                                         <div class="modal-body p-4">
                                                             <div
-                                                                class="alert alert-light border rounded-3 mb-4 d-flex align-details-center">
+                                                                class="alert alert-light border rounded-3 mb-4 d-flex  align-items-center">
                                                                 <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
-                                                                    <i class="fa-solid fa-box text-primary fs-5"></i>
+                                                                    <i class="fa-solid fa-box text-primary fs-4"></i>
                                                                 </div>
                                                                 <div>
                                                                     <span class="small d-block text-muted mb-1">Upload nota

@@ -20,7 +20,7 @@
             height: 100%;
             background: #212529;
             color: white;
-            width: 260px;
+            width: 270px;
             position: fixed;
             transition: all 0.3s ease-in-out;
             z-index: 1000;
@@ -110,7 +110,7 @@
         /* Responsive Mobile Styles */
         @media (max-width: 992px) {
             .sidebar {
-                margin-left: -260px;
+                margin-left: -270px;
             }
 
             .main-content {
@@ -199,6 +199,19 @@
                 gap: 15px;
             }
         }
+
+        /* .brand-logo {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        } */
     </style>
 </head>
 
@@ -207,10 +220,17 @@
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
         <div class="sidebar d-flex flex-column shadow" id="sidebar">
-            <div class="p-4 text-center position-relative">
-                <h4 class="fw-bold tracking-tight text-white mb-0">INV-SCHOOL</h4>
+            <div class="p-4 text-center align-items-center d-flex gap-2 position-relative">
+                <div class="brand-logo">
+                    <img src="{{ asset('img/logo-alazhar.png') }}" style="width:60px; height: 60px;" alt="">
+
+                </div>
+
                 <small class=" text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Sistem
-                    Inventaris Sekolah</small>
+                    Inventaris <br> <span style="font-size:10px" class=" text-uppercase">
+                        Sekolah Islam <br> Al-Azhar Pekalongan
+                    </span>
+                </small>
 
                 <button
                     class="btn btn-link text-white d-lg-none position-absolute top-0 end-0 mt-3 me-2 text-decoration-none"
@@ -333,9 +353,9 @@
                 <div class="container-fluid px-4">
                     <div class="d-flex justify-content-center align-items-center footer-content">
                         <div>
-                            <span class="footer-brand">INVENTARIS PRO</span>
+                            <span class="footer-brand">SISTEM INVENTARIS DIGITAL</span>
                             <span class="mx-2 text-muted opacity-25">|</span>
-                            <span>&copy; {{ date('Y') }} All Rights Reserved.</span>
+                            <span>&copy; {{ date('Y') }} Sekolah Islam Al-Azhar.</span>
                         </div>
 
                         {{-- <div class="d-none d-md-block">

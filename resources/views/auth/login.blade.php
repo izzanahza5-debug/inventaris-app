@@ -79,8 +79,8 @@
         }
 
         .brand-logo {
-            width: 70px;
-            height: 70px;
+            width:  130px;
+            height: 130px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.2);
@@ -217,7 +217,7 @@
             }
 
             .brand-logo {
-                width: 60px; height: 60px;
+                width: 100px; height: 100px;
                 margin-bottom: 15px;
             }
 
@@ -250,10 +250,16 @@
 <div class="login-wrapper">
     <div class="col-lg-5 brand-section">
         <div class="brand-content">
-            <div class="brand-logo">
-                <i class="fa-solid fa-boxes-stacked fa-2x text-white"></i>
+            <div class="d-flex justify-content-center gap-2">
+
+                <div class="p-2 brand-logo">
+                <img src="{{ asset('img/logo-alazhar.png') }}" style="width:100%;" alt="">
+                </div>
+                <div class="p-2 brand-logo">
+                <img src="{{ asset('img/sigma.png') }}" style="width:100%;" alt="">
+                </div>
             </div>
-            <h1 class="fw-bold mb-3">INV-SCHOOL</h1>
+            <h1 class="fw-bold mb-3">INVENTARIS <br> AL-AZHAR</h1>
             <p class="text-center text-white-50 fs-6 mb-0">Kelola aset sekolah lebih rapi, terstruktur, dan transparan dalam satu platform modern.</p>
             
             <div class="glass-badge">

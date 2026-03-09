@@ -20,10 +20,20 @@
             padding-bottom: 15px;
             margin-bottom: 20px;
         }
-        .brand-section {
-            width: 50%;
-            float: left;
-        }
+        /* Update di bagian Header Modern */
+.brand-section {
+    width: 60%; /* Beri ruang lebih untuk logo dan teks */
+    float: left;
+}
+.logo {
+    float: left;
+    width: 60px; /* Sesuaikan ukuran logo */
+    height: auto;
+    margin-right: 15px;
+}
+.brand-text {
+    float: left;
+}
         .info-section {
             width: 50%;
             float: right;
@@ -134,17 +144,21 @@
 </head>
 <body>
     <div class="header-container">
-        <div class="brand-section">
-            <h1 class="company-name">INVENTARIS PRO</h1>
-            <p style="margin: 5px 0 0; font-size: 10px; color: #34495e;">Smart Asset Management System</p>
+    <div class=" d-flex gap-2">
+        <img src="{{ public_path('img/logo-alazhar.png') }}" class="logo">
+        
+        <div class="brand-text">
+            <h1 class="company-name">SISTEM INVENTARIS DIGITAL</h1>
+            <p style="margin: 5px 0 0; font-size: 10px; color: #34495e;">Sekolah Islam Al-azhar Pekalongan</p>
         </div>
-        <div class="info-section">
-            Jl. Contoh Alamat No. 123, Kota Anda<br>
-            Telp: (021) 123456 | Email: info@sekolah.sch.id<br>
-            Web: www.sekolah.sch.id
-        </div>
-        <div class="clear"></div>
     </div>
+    <div class="info-section">
+        Jl. Contoh Alamat No. 123, Kota Anda<br>
+        Telp: (021) 123456 | Email: info@sekolah.sch.id<br>
+        Web: www.sekolah.sch.id
+    </div>
+    <div class="clear"></div>
+</div>
 
     <div class="report-title">
         <h2>Laporan Data Inventaris Barang</h2>
@@ -180,7 +194,7 @@
                         $statusClass = '';
                         $kondisi = strtolower($item->kondisi);
                         if($kondisi == 'baik') $statusClass = 'bg-baik';
-                        elseif($kondisi == 'rusak') $statusClass = 'bg-rusak';
+                        elseif($kondisi == 'Rusak Berat') $statusClass = 'bg-rusak';
                         else $statusClass = 'bg-perbaikan';
                     @endphp
                     <span class="badge {{ $statusClass }}">{{ $item->kondisi }}</span>
