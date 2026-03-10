@@ -66,7 +66,7 @@
             gap: 8px;
         }
 
-        .btn-modern:hover {
+        .btn-modern:hover, .filter:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
@@ -152,6 +152,9 @@
     transition: all 0.3s ease;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.filter{
+    transition: all 0.3s;
 }
 
 /* Efek saat kursor diarahkan (Hover) */
@@ -249,7 +252,7 @@
                     </div>
 
                     <div class="col-lg-4 col-md-6 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary w-100 rounded-4 shadow-sm fw-semibold"
+                        <button type="submit" class="btn filter btn-primary w-100 shadow-sm rounded-4 shadow-sm fw-semibold"
                             style="height: 48px; background: linear-gradient(135deg, #4361ee 1%, #3f37c9 99%); border:none;">
                             <i class="fa-solid fa-filter me-1"></i> Filter
                         </button>
@@ -257,7 +260,7 @@
                             
                         <a href="{{ route('barang.index') }}"
                             class="btn btn-light  rounded-4 d-flex align-items-center justify-content-center fw-semibold"
-                            style="height: 48px; width: 30%; border: 1.5px solid #4361ee; color: #4361ee;">
+                            style="height: 100%; width: 30%; border: 1.5px solid #4361ee; color: #4361ee;">
                             <i class="fa-solid fa-rotate-right"></i>
                         </a>
                         @endif
@@ -350,11 +353,10 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="6" class="text-center py-5">
-                                        <img src="https://illustrations.popsy.co/gray/empty-box.svg" style="width: 150px;"
-                                            class="mb-3">
-                                        <h5 class="text-muted">Oops! Tidak ada data barang ditemukan.</h5>
+<tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <i class="fa-solid fa-box-open fa-3x mb-3 opacity-50"></i><br>
+                                        Oops! Tidak ada data barang ditemukan.
                                     </td>
                                 </tr>
                             @endforelse

@@ -135,7 +135,7 @@
         </div>
     </div>
 
-    <div class="row g-4">
+    <div data-aos="fade-up" data-aos-duration="600" class="row g-4">
         <div class="col-lg-8">
             <div class="card dashboard-card bg-white shadow-sm border-0 ">
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
