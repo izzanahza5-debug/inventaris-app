@@ -67,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
     // Route khusus update status oleh Admin
     Route::patch('/pengajuan/{pengajuan}/status', [PengajuanController::class, 'updateStatus'])->name('pengajuan.update-status');
     Route::get('/pengajuan/{pengajuan}/cetak', [PengajuanController::class, 'cetakPdf'])->name('pengajuan.cetak');
+    Route::get('/pengajuan/laporan/pdf', [PengajuanController::class, 'laporanPdf'])
+    ->name('pengajuan.laporanPdf');
 });
 
 Route::get('/{slug}', [App\Http\Controllers\BarangController::class, 'showPublic'])->name('barang.show-public');

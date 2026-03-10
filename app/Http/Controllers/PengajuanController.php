@@ -19,33 +19,47 @@ public function index(Request $request)
 {
     $user = Auth::user();
 
-    // 1. Inisialisasi query dasar beserta relasinya
-    $query = Pengajuan::with(['user', 'jenjang'])->latest();
+    // 1. Inisialisasi query dasar
+    $query = Pengajuan::with(['user.role', 'jenjang'])->latest();
 
-    // 2. Logika Hak Akses (Admin vs User Biasa)
+    // 2. Logika Hak Akses (Existing)
     if (!$user->role || $user->role->slug !== 'admin') {
         $query->whereHas('user', function ($q) use ($user) {
             $q->where('role_id', $user->role_id);
         });
     }
 
-    // 3. Fitur Pencarian berdasarkan Nomor Pengajuan
+    // 3. Filter Baru: Role (Khusus Admin bisa filter semua role)
+    if ($request->filled('role_id')) {
+        $query->whereHas('user', function ($q) use ($request) {
+            $q->where('role_id', $request->role_id);
+        });
+    }
+
+    // 4. Filter Baru: Rentang Tanggal
+    if ($request->filled('tgl_mulai')) {
+        $query->whereDate('created_at', '>=', $request->tgl_mulai);
+    }
+    if ($request->filled('tgl_selesai')) {
+        $query->whereDate('created_at', '<=', $request->tgl_selesai);
+    }
+
+    // 5. Fitur Pencarian & Filter Jenjang (Existing)
     if ($request->filled('search')) {
         $query->where('no_pengajuan', 'like', '%' . $request->search . '%');
     }
-
-    // 4. Fitur Filter berdasarkan Jenjang
     if ($request->filled('jenjang_id')) {
         $query->where('jenjang_id', $request->jenjang_id);
     }
 
-    // 5. Eksekusi query
-    $pengajuans = $query->latest()->paginate(5);
+    // 6. Eksekusi
+    $pengajuans = $query->paginate(10)->withQueryString(); // withQueryString agar filter tidak hilang saat pindah page
 
-    // 6. Ambil data master jenjang untuk ditampilkan di dropdown filter
+    // 7. Data Master untuk Dropdown
     $jenjangs = Jenjang::all();
+    $roles = \App\Models\Role::all(); // Ambil data role untuk filter
 
-    return view('pengajuan.index', compact('pengajuans', 'jenjangs'));
+    return view('pengajuan.index', compact('pengajuans', 'jenjangs', 'roles'));
 }
 
     public function create()
@@ -218,6 +232,50 @@ public function index(Request $request)
         $pdf = Pdf::loadView('pengajuan.pdf', compact('pengajuan'));
         return $pdf->setPaper('a4', 'portrait')->download('Pengajuan_' . $pengajuan->no_pengajuan . '.pdf');
     }
+    
+    public function laporanPdf(Request $request)
+{
+    $user = Auth::user();
+    $query = Pengajuan::with(['user.role', 'jenjang', 'details']); // Load details juga
+
+    // --- REUSE LOGIKA FILTER DARI INDEX ---
+    if (!$user->role || $user->role->slug !== 'admin') {
+        $query->whereHas('user', function ($q) use ($user) {
+            $q->where('role_id', $user->role_id);
+        });
+    }
+
+    if ($request->filled('role_id')) {
+        $query->whereHas('user', function ($q) use ($request) {
+            $q->where('role_id', $request->role_id);
+        });
+    }
+
+    if ($request->filled('tgl_mulai')) {
+        $query->whereDate('created_at', '>=', $request->tgl_mulai);
+    }
+    if ($request->filled('tgl_selesai')) {
+        $query->whereDate('created_at', '<=', $request->tgl_selesai);
+    }
+
+    if ($request->filled('search')) {
+        $query->where('no_pengajuan', 'like', '%' . $request->search . '%');
+    }
+    if ($request->filled('jenjang_id')) {
+        $query->where('jenjang_id', $request->jenjang_id);
+    }
+
+    $data = $query->latest()->get();
+
+    // Data Tambahan untuk Header Laporan
+    $filterInfo = [
+        'tgl_mulai' => $request->tgl_mulai ? Carbon::parse($request->tgl_mulai)->format('d/m/Y') : '-',
+        'tgl_selesai' => $request->tgl_selesai ? Carbon::parse($request->tgl_selesai)->format('d/m/Y') : '-',
+    ];
+
+    $pdf = Pdf::loadView('pengajuan.laporan-pdf', compact('data', 'filterInfo'));
+    return $pdf->setPaper('a4', 'landscape')->download('Laporan_Pengajuan_Barang.pdf');
+}
 
     public function uploadNota(Request $request, $id)
 {
