@@ -106,7 +106,7 @@
             <i class="fa-solid fa-file-pen fs-1 opacity-25"></i>
         </div>
 
-        <form action="{{ route('pengajuan.update', $pengajuan->id) }}" method="POST" id="editForm">
+        <form action="{{ route('pengajuan.update', $pengajuan->no_pengajuan) }}" method="POST" id="editForm">
             @csrf
             @method('PUT')
 

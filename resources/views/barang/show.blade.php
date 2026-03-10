@@ -37,7 +37,7 @@
                     <div>
                         <small class="text-muted d-block">Data diinput oleh:</small>
                         <h6 class="fw-bold mb-0">{{ $barang->user->name }}</h6>
-                        <small class="text-muted small">Pada: {{ $barang->created_at->format('d M Y, H:i') }}</small>
+                        <small class="text-muted small">Pada: {{ $barang->created_at->format('d M Y') }}</small>
                     </div>
                 </div>
             </div>

@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventaris Sekolah - Dashboard</title>
+    <link rel="icon" href="{{ asset('img/logo-alazhar.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
@@ -219,7 +220,7 @@
     @auth
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <div class="sidebar d-flex flex-column shadow" id="sidebar">
+        <div  class="sidebar d-flex flex-column shadow" id="sidebar">
             <div class="p-4 text-center align-items-center d-flex gap-2 position-relative">
                 <div class="brand-logo">
                     <img src="{{ asset('img/logo-alazhar.png') }}" style="width:60px; height: 60px;" alt="">
@@ -233,7 +234,7 @@
                 </small>
 
                 <button
-                    class="btn btn-link text-white d-lg-none position-absolute top-0 end-0 mt-3 me-2 text-decoration-none"
+                    class="btn btn-link text-white d-lg-none position-absolute top-0 end-0 mt-3 me-1 text-decoration-none"
                     id="closeSidebarBtn">
                     <i class="fa-solid fa-xmark fs-5"></i>
                 </button>
@@ -377,6 +378,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+  AOS.init();
+</script>
     @yield('scripts')
     <script>
         // Logic untuk mengatur buka-tutup sidebar di layar mobile

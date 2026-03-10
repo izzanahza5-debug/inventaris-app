@@ -13,7 +13,7 @@ class RuanganController extends Controller
         if (auth()->user()->role_id !== 1) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
-        $ruangans = Ruangan::with('gedung')->latest()->paginate(10);
+        $ruangans = Ruangan::with('gedung')->latest()->paginate(5);
         $gedungs = Gedung::all();
         return view('master.ruangan.index', compact('ruangans', 'gedungs'));
     }

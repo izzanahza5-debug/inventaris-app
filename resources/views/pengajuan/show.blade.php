@@ -93,7 +93,7 @@
                         <i class="fa-solid fa-arrow-left me-2"></i> Kembali
                     </a>
                     <a href="{{ route('pengajuan.cetak', $pengajuan->id) }}"
-                        class="btn btn-danger rounded-pill px-4 py-2 shadow-sm flex-grow-1 flex-md-grow-0" target="_blank">
+                        class="btn btn-danger rounded-pill px-4 py-2 shadow-sm flex-grow-1 flex-md-grow-0">
                         <i class="fa-solid fa-file-pdf me-2"></i> Cetak PDF
                     </a>
                 </div>
@@ -305,7 +305,7 @@
                         </div>
                     </div>
 
-                    @if (auth()->user()->role->slug == 'admin')
+                    @if (auth()->user()->role->slug == 'admin' && $pengajuan->status != 'Selesai')
                         <div class="card card-custom border-primary border-top border-4">
                             <div class="card-body p-4">
                                 <h5 class="fw-bold mb-3"><i class="fa-solid fa-user-shield me-2 text-primary"></i>Panel

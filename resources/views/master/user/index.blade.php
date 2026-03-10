@@ -99,6 +99,49 @@
             .hide-on-mobile { display: none; }
             .card-master { border-radius: 15px; }
         }
+        /* Container Pagination */
+.pagination {
+    gap: 5px; /* Memberi jarak antar kotak nomor */
+}
+
+.page-item .page-link {
+    border: none;
+    border-radius: 8px !important; /* Membuat sudut lebih bulat */
+    padding: 8px 16px;
+    color: #6c757d;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Efek saat kursor diarahkan (Hover) */
+ .page-item .page-link:hover {
+    background-color: #e9ecef;
+    color: #390dfd;
+    transform: translateY(-2px); /* Efek melayang */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Tampilan Tombol Aktif */
+.page-item.active .page-link {
+    background-color: #390dfd; /* Warna biru Bootstrap */
+    color: white;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+/* Tombol Disabled (Mati) */
+.page-item.disabled .page-link {
+    background-color: #f1f3f5;
+    color: #adb5bd;
+    opacity: 0.6;
+}
+
+/* Menghilangkan outline biru bawaan browser saat diklik */
+.page-link:focus {
+    box-shadow: none;
+    outline: none;
+}
     </style>
 
     <div class="container-fluid py-4">

@@ -153,16 +153,16 @@
         </div>
     </div>
     <div class="info-section">
-        Jl. Contoh Alamat No. 123, Kota Anda<br>
-        Telp: (021) 123456 | Email: info@sekolah.sch.id<br>
-        Web: www.sekolah.sch.id
+        Jl. Pelita II, Banyurip Alit, Kec. Pekalongan Sel., Kota Pekalongan<br>
+         Email: sekolahalazharpekalongan.gmail.com<br>
+        Web: www.alazharpekalongan.sch.id
     </div>
     <div class="clear"></div>
 </div>
 
     <div class="report-title">
         <h2>Laporan Data Inventaris Barang</h2>
-        <p>Periode: {{ now()->format('F Y') }} | Dicetak pada: {{ now()->format('d/m/Y') }}</p>
+        <p>Periode: {{ \Carbon\Carbon::now()->translatedFormat('F Y') }} | Dicetak pada: {{ \Carbon\Carbon::now()->translatedFormat('d/m/Y') }}</p>
     </div>
 
     <table>
@@ -207,11 +207,11 @@
 
     <div class="footer-section">
         <div class="signature-box">
-            <p>{{ now()->format('d F Y') }}<br>Mengetahui,</p>
+            <p>{{ \Carbon\Carbon::now()->translatedFormat('d m Y') }}<br>Mengetahui,</p>
             <p style="font-weight: bold; margin-bottom: 0;">{{ Auth()->user()->role->nama_role }}</p>
             <div class="signature-space"></div>
             <span class="signer-name">{{ Auth()->user()->name }}</span>
-            <small>NIP. 19800101 200501 1 001</small>
+            {{-- <small>NIP. 19800101 200501 1 001</small> --}}
         </div>
         <div class="clear"></div>
     </div>

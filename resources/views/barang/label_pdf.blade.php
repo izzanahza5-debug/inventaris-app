@@ -18,97 +18,115 @@
 
         /* Container utama label */
         .label-wrapper {
-            width: 80mm;
-            height: 20mm;
+            width: 85mm;
+            height: 25mm; /* Sedikit ditinggikan agar proporsional */
             float: left;
-            margin: 1.5mm; /* Memberi jarak antar label untuk pemotongan */
-            border: 0.1pt solid #e0e0e0; /* Garis tipis untuk panduan potong */
+            margin: 2mm 3mm; /* Jarak antar label */
+            border: 1px solid #1a3a5f; /* Border warna tema */
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
-            border-radius: 2mm; /* Membuat sudut sedikit melengkung (modern) */
+            border-radius: 3px;
         }
 
-        /* Bagian Kiri: Area QR Code */
+        /* Bagian Kiri: Area QR Code (Blocking Warna) */
         .qr-section {
-            width: 20mm;
-            height: 20mm;
+            width: 25mm;
+            height: 100%;
             position: absolute;
             left: 0;
             top: 0;
-            background-color: #f8f9fa; /* Background abu sangat muda */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-right: 0.5pt solid #eee;
+            background-color: #1a3a5f; /* Warna biru gelap / Navy */
+            display: table; /* Trik vertikal align untuk PDF */
+            text-align: center;
         }
 
-        .qr-section img {
-            width: 16mm;
-            height: 16mm;
-            margin: 2mm;
+        .qr-container {
+            display: table-cell;
+            vertical-align: middle;
+            padding: 2.5mm;
+        }
+
+        .qr-container img {
+            width: 18mm;
+            height: 18mm;
+            background-color: #fff; /* Memberi frame putih pada QR */
+            padding: 1mm;
+            border-radius: 2px;
         }
 
         /* Bagian Kanan: Informasi Teks */
         .info-section {
-            margin-left: 21mm;
-            padding: 1.5mm 2.5mm;
+            margin-left: 25mm; /* Sesuaikan dengan lebar qr-section */
+            height: 100%;
+            position: relative;
         }
 
-        /* Baris Atas: Logo & Nama Sekolah */
+        /* Header Label (Blok Abu-abu Terang) */
         .header-info {
-            height: 4mm;
-            margin-bottom: 0.5mm;
-        }
-
-        .school-logo {
-            height: 3.5mm;
-            vertical-align: middle;
-            margin-right: 1mm;
+            background-color: #f1f5f9;
+            height: 6mm;
+            padding: 1mm 2mm;
+            border-bottom: 1px solid #e2e8f0;
+            align-items: center;
         }
 
         .school-name {
-            font-size: 6.5pt;
-            font-weight: 700;
-            color: #444;
+            font-size: 7pt;
+            font-weight: bold;
+            color: #1a3a5f;
             text-transform: uppercase;
-            letter-spacing: 0.3pt;
+            letter-spacing: 0.5pt;
+            display: block;
+            margin-top: 0.5mm;
         }
 
-        /* Baris Tengah: Nomor Inventaris (Highlight Utama) */
+        /* Konten Utama (Nomor & Nama Barang) */
+        .content-info {
+            padding: 2mm 2.5mm;
+        }
+
+        .inv-label {
+            font-size: 5pt;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.5mm;
+            display: block;
+        }
+
         .inv-number {
             font-size: 11pt;
-            font-weight: 800;
-            color: #000;
+            font-weight: bold;
+            color: #0f172a;
             margin: 0;
-            line-height: 1.1;
-            letter-spacing: -0.2pt;
-        }
-
-        /* Baris Bawah: Nama Barang & Keterangan Tambahan */
-        .item-details {
-            margin-top: 1mm;
-            border-top: 0.3pt solid #4e73df; /* Garis aksen biru kecil */
-            padding-top: 0.5mm;
+            line-height: 1;
+            font-family: 'Courier', monospace; /* Font monospace agar nomor terlihat tegas */
         }
 
         .item-name {
-            font-size: 6.5pt;
-            font-weight: 500;
-            color: #666;
-            margin: 0;
+            font-size: 7.5pt;
+            font-weight: bold;
+            color: #334155;
+            margin: 1.5mm 0 0 0;
             white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis; /* Menambahkan '...' jika teks terlalu panjang */
         }
 
-        .footer-tag {
+        /* Pita Status/Tahun di Kanan Bawah */
+        .year-tag {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #1a3a5f; /* Warna merah aksen */
+            color: white;
             font-size: 5pt;
             font-weight: bold;
-            color: #4e73df;
-            text-transform: uppercase;
+            padding: 1mm 2mm;
+            border-top-left-radius: 3px;
         }
 
-        /* Clearfix untuk grid */
         .clear { clear: both; }
     </style>
 </head>
@@ -117,28 +135,29 @@
     @foreach($barangs as $index => $barang)
         <div class="label-wrapper">
             <div class="qr-section">
-                <img src="data:image/svg+xml;base64, {!! base64_encode(QrCode::format('svg')->size(100)->margin(0)->generate(route('barang.show-public', $barang->nama_barang))) !!}" > 
+                <div class="qr-container">
+                    <img src="data:image/svg+xml;base64, {!! base64_encode(QrCode::format('svg')->size(100)->margin(0)->generate(route('barang.show-public', $barang->nama_barang))) !!}" > 
+                </div>
             </div>
 
             <div class="info-section">
                 <div class="header-info">
-                    {{-- Placeholder Logo (Aktifkan jika file sudah ada) --}}
-                    {{-- <img src="{{ public_path('img/logo-sekolah.png') }}" class="school-logo"> --}}
-                    <span class="school-name">SMK NEGERI INDONESIA</span>
+                    {{-- <img src="{{ public_path('img/logo-alazhar.png') }}" style="height: 100%" alt=""> --}}
+                    <span class="school-name">Sekolah Islam Al-Azhar Pekalongan</span>
                 </div>
 
-                <div class="inv-number">
-                    {{ $barang->no_inventaris }}
+                <div class="content-info">
+                    <span class="inv-label">No. Inventaris</span>
+                    <div class="inv-number">{{ $barang->no_inventaris }}</div>
+                    <div class="item-name">{{ strtoupper($barang->nama_barang) }}</div>
                 </div>
 
-                <div class="item-details">
-                    <span class="footer-tag">ASSET:</span>
-                    <p class="item-name">{{ strtoupper($barang->nama_barang) }}</p>
+                <div class="year-tag">
+                    {{ $barang->tanggal_perolehan ? $barang->tanggal_perolehan->format('Y') : date('Y') }}
                 </div>
             </div>
         </div>
 
-        {{-- Logika agar setiap 2 label, baris berganti (untuk kerapian float) --}}
         @if(($index + 1) % 2 == 0)
             <div class="clear"></div>
         @endif

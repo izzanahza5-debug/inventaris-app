@@ -138,6 +138,49 @@
                 width: 100%;
             }
         }
+        /* Container Pagination */
+.pagination {
+    gap: 5px; /* Memberi jarak antar kotak nomor */
+}
+
+.page-item .page-link {
+    border: none;
+    border-radius: 8px !important; /* Membuat sudut lebih bulat */
+    padding: 8px 16px;
+    color: #6c757d;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Efek saat kursor diarahkan (Hover) */
+.page-item .page-link:hover {
+    background-color: #e9ecef;
+    color: #390dfd;
+    transform: translateY(-2px); /* Efek melayang */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Tampilan Tombol Aktif */
+.page-item.active .page-link {
+    background-color: #390dfd; /* Warna biru Bootstrap */
+    color: white;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+/* Tombol Disabled (Mati) */
+.page-item.disabled .page-link {
+    background-color: #f1f3f5;
+    color: #adb5bd;
+    opacity: 0.6;
+}
+
+/* Menghilangkan outline biru bawaan browser saat diklik */
+.page-link:focus {
+    box-shadow: none;
+    outline: none;
+}
     </style>
 
     <div class="container-fluid py-4">
@@ -168,7 +211,7 @@
                         <i class="fa-solid fa-file-excel"></i> Export Excel
                     </a>
                     <a href="{{ route('barang.cetak-label', request()->all()) }}" class="btn btn-modern btn-label shadow-sm"
-                        target="_blank">
+                        >
                         <i class="fa-solid fa-qrcode"></i> Cetak Label QR
                     </a>
                 </div>
@@ -185,7 +228,7 @@
                     </div>
 
                     <div class="col-lg-2 col-md-6">
-                        <select name="gedung" class="form-select input-box-custom shadow-none border-0 px-3">
+                        <select name="gedung" class="form-select input-box-custom shadow-none border-2 px-3">
                             <option value="">Semua Lokasi</option>
                             @foreach ($gedungs as $g)
                                 <option value="{{ $g->id }}" {{ request('gedung') == $g->id ? 'selected' : '' }}>
@@ -195,7 +238,7 @@
                     </div>
 
                     <div class="col-lg-2 col-md-6">
-                        <select name="kondisi" class="form-select input-box-custom shadow-none border-0 px-3">
+                        <select name="kondisi" class="form-select input-box-custom shadow-none border-2 px-3">
                             <option value="">Semua Kondisi</option>
                             <option value="Baik" {{ request('kondisi') == 'Baik' ? 'selected' : '' }}>Baik</option>
                             <option value="Rusak Ringan" {{ request('kondisi') == 'Rusak Ringan' ? 'selected' : '' }}>Rusak
@@ -205,20 +248,23 @@
                         </select>
                     </div>
 
-                    <div class="col-lg-2 col-md-3">
-                        <button type="submit" class="btn btn-primary w-100 rounded-4 shadow-sm"
-                            style="height: 48px; background: #4361ee; border:none;">
+                    <div class="col-lg-4 col-md-6 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100 rounded-4 shadow-sm fw-semibold"
+                            style="height: 48px; background: linear-gradient(135deg, #4361ee 1%, #3f37c9 99%); border:none;">
                             <i class="fa-solid fa-filter me-1"></i> Filter
                         </button>
+                        @if (request()->filled('search') || request()->filled('kondisi') || request()->filled('gedung'))
+                            
+                        <a href="{{ route('barang.index') }}"
+                            class="btn btn-light  rounded-4 d-flex align-items-center justify-content-center fw-semibold"
+                            style="height: 48px; width: 30%; border: 1.5px solid #4361ee; color: #4361ee;">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </a>
+                        @endif
                     </div>
 
-                    <div class="col-lg-2 col-md-3">
-                        <a href="{{ route('barang.index') }}"
-                            class="btn btn-light w-100 rounded-4 d-flex align-items-center justify-content-center fw-bold"
-                            style="height: 48px; border: 2px solid #d7d7d7;">
-                            Reset
-                        </a>
-                    </div>
+                    {{-- <div class="col-lg-2 col-md-3"> --}}
+                    {{-- </div> --}}
                 </form>
             </div>
         </div>
@@ -280,7 +326,7 @@
                                         <div class="d-flex justify-content-center gap-2">
                                             <a href="{{ route('barang.cetak-label-satuan', $item->id) }}"
                                                 class="btn btn-sm btn-light rounded-3 p-2 text-success"
-                                                title="Cetak Label QR" target="_blank">
+                                                title="Cetak Label QR" >
                                                 <i class="fa-solid fa-qrcode fa-lg"></i>
                                             </a>
                                             <a href="{{ route('barang.show', $item->nama_barang) }}"

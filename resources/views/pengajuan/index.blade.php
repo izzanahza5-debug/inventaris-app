@@ -82,6 +82,49 @@
             color: #1d4ed8;
             border: 1px solid #dbeafe;
         }
+        /* Container Pagination */
+.pagination {
+    gap: 5px; /* Memberi jarak antar kotak nomor */
+}
+
+.page-item .page-link {
+    border: none;
+    border-radius: 8px !important; /* Membuat sudut lebih bulat */
+    padding: 8px 16px;
+    color: #6c757d;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Efek saat kursor diarahkan (Hover) */
+ .page-item .page-link:hover {
+    background-color: #e9ecef;
+    color: #390dfd;
+    transform: translateY(-2px); /* Efek melayang */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Tampilan Tombol Aktif */
+.page-item.active .page-link {
+    background-color: #390dfd; /* Warna biru Bootstrap */
+    color: white;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+/* Tombol Disabled (Mati) */
+.page-item.disabled .page-link {
+    background-color: #f1f3f5;
+    color: #adb5bd;
+    opacity: 0.6;
+}
+
+/* Menghilangkan outline biru bawaan browser saat diklik */
+.page-link:focus {
+    box-shadow: none;
+    outline: none;
+}
     </style>
 
     <div class="container-fluid px-4">
@@ -103,7 +146,7 @@
         @endif
 
         <div class="card border-0 shadow-sm rounded-4 mb-4">
-            <div class="card-body p-4">
+            <div class="card-body px-4 py-3">
                 <form action="{{ route('pengajuan.index') }}" method="GET">
                     <div class="row g-3 align-items-center">
 
@@ -190,18 +233,18 @@
                                     </td>
                                     <td class="text-center pe-4">
                                         <div class="d-flex justify-content-center gap-1"> <a
-                                                href="{{ route('pengajuan.show', $item->id) }}"
+                                                href="{{ route('pengajuan.show', $item->no_pengajuan) }}"
                                                 class="btn-action btn btn-info btn-sm text-white" title="Lihat"><i
                                                     class="fa-solid fa-eye"></i></a>
 
                                             @if ($item->status == 'Pending')
-                                                <a href="{{ route('pengajuan.edit', $item->id) }}"
+                                                <a href="{{ route('pengajuan.edit', $item->no_pengajuan) }}"
                                                     class="btn-action btn btn-warning btn-sm text-white" title="Edit"><i
                                                         class="fa-solid fa-pen-to-square"></i></a>
                                             @endif
 
                                             <a href="{{ route('pengajuan.cetak', $item->id) }}"
-                                                class="btn-action btn btn-danger btn-sm" target="_blank" title="PDF"><i
+                                                class="btn-action btn btn-danger btn-sm"  title="PDF"><i
                                                     class="fa-solid fa-file-pdf"></i></a>
 
                                             @if ($item->status == 'Pending' || auth()->user()->role->slug == 'admin')

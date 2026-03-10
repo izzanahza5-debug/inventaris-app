@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | INV-SCHOOL</title>
+    <link rel="icon" href="{{ asset('img/logo-alazhar.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -33,7 +34,7 @@
 
         /* --- SISI KIRI: BRANDING --- */
         .brand-section {
-            background: linear-gradient(135deg, #504bccbb 0%, var(--primary-color) 100%);
+            background: linear-gradient(135deg, #2823bebb 0%, var(--primary-color) 100%);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -75,21 +76,27 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            max-width: 400px;
+            max-width: 420px; /* Sedikit dilebarkan agar teks lebih leluasa */
         }
 
         .brand-logo {
-            width:  130px;
-            height: 130px;
+            width:  120px; /* Sedikit disesuaikan agar proporsional saat ada 2 logo */
+            height: 120px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 20px;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
+            padding: 15px; /* Memberikan ruang napas di dalam kotak */
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Mencegah gambar gepeng/terdistorsi */
         }
 
         .glass-badge {
@@ -210,29 +217,30 @@
             }
 
             .brand-section {
-                padding: 60px 20px 80px 20px; /* Padding bawah lebih besar */
+                padding: 60px 20px 80px 20px; 
                 border-bottom-left-radius: 40px;
                 border-bottom-right-radius: 40px;
                 min-height: auto;
             }
 
             .brand-logo {
-                width: 100px; height: 100px;
-                margin-bottom: 15px;
+                width: 90px; 
+                height: 90px;
+                padding: 10px;
             }
 
-            .brand-content h1 {
-                font-size: 1.8rem;
+            .brand-content h3 {
+                font-size: 1.5rem;
             }
 
             .brand-content p {
-                font-size: 1rem !important;
+                font-size: 0.95rem !important;
             }
 
             .form-section {
                 padding: 0 20px 40px 20px;
                 background: transparent;
-                margin-top: -60px; /* Form naik menimpa header */
+                margin-top: -60px; 
                 position: relative;
                 z-index: 10;
             }
@@ -250,17 +258,22 @@
 <div class="login-wrapper">
     <div class="col-lg-5 brand-section">
         <div class="brand-content">
-            <div class="d-flex justify-content-center gap-2">
-
-                <div class="p-2 brand-logo">
-                <img src="{{ asset('img/logo-alazhar.png') }}" style="width:100%;" alt="">
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <div class="brand-logo">
+                    <img src="{{ asset('img/logo-alazhar.png') }}" alt="Logo Al-Azhar">
                 </div>
-                <div class="p-2 brand-logo">
-                <img src="{{ asset('img/sigma.png') }}" style="width:100%;" alt="">
+                <div class="brand-logo">
+                    <img src="{{ asset('img/sigma.png') }}" alt="Logo Sigma">
                 </div>
             </div>
-            <h1 class="fw-bold mb-3">INVENTARIS <br> AL-AZHAR</h1>
-            <p class="text-center text-white-50 fs-6 mb-0">Kelola aset sekolah lebih rapi, terstruktur, dan transparan dalam satu platform modern.</p>
+            
+            <h3 class="fw-bold mb-2">SISTEM INVENTARIS DIGITAL</h3>
+            <div class="fs-5 fw-semibold text-light mb-3">
+                Sekolah Islam Al-Azhar Pekalongan
+            </div>
+            <p class="text-center text-white-50 fs-6 mb-0 lh-base">
+                Kelola aset sekolah lebih rapi, terstruktur, dan transparan dalam satu platform modern.
+            </p>
             
             <div class="glass-badge">
                 <i class="fa-solid fa-shield-halved me-2"></i> Sistem Keamanan Terenkripsi

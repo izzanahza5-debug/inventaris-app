@@ -16,12 +16,13 @@ class RedirectIfLogin
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
 
-public function handle($request, Closure $next)
-{
-    if (Auth::check()) {
-        return redirect()->back();
-    }
+    public function handle($request, Closure $next)
+    {
+        if (Auth::check()) {
+            // Jangan gunakan back(), arahkan langsung ke dashboard
+            return redirect('/dashboard'); 
+        }
 
-    return $next($request);
-}
+        return $next($request);
+    }
 }

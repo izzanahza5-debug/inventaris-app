@@ -15,7 +15,6 @@ use App\Exports\BarangExport;
 use App\Models\Ruangan;
 // use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Facades\Excel; // Untuk Excel
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BarangController extends Controller
 {

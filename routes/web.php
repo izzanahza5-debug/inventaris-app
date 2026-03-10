@@ -21,9 +21,8 @@ use App\Http\Controllers\PengajuanController;
 Route::redirect('/', '/login');
 Route::get('/login', [AuthController::class, 'index'])
     ->name('login')
-    ->middleware('redirectIfLogin');
+    ->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -50,8 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/barang/export-pdf', [BarangController::class, 'exportPdf'])->name('barang.export-pdf');
     Route::get('/barang/export-excel', [BarangController::class, 'exportExcel'])->name('barang.export-excel');
     Route::get('/barang/cetak-label', [App\Http\Controllers\BarangController::class, 'cetakLabel'])->name('barang.cetak-label');
-    Route::get('/barang/cetak-label-satuan/{id}', [BarangController::class, 'cetakLabelSatuan'])
-    ->name('barang.cetak-label-satuan');
+    Route::get('/barang/cetak-label-satuan/{id}', [BarangController::class, 'cetakLabelSatuan'])->name('barang.cetak-label-satuan');
     Route::resource('barang', BarangController::class);
     Route::get('/api/ruangan/{gedung_id}', [App\Http\Controllers\Master\RuanganController::class, 'getRuanganByGedung']);
 
@@ -65,12 +63,11 @@ Route::middleware(['auth'])->group(function () {
     // 5. Pengajuan Barang
     Route::resource('pengajuan', PengajuanController::class);
     // Route untuk upload nota per item barang
-Route::post('/pengajuan/detail/{id}/upload-nota', [App\Http\Controllers\PengajuanController::class, 'uploadNota'])->name('pengajuan.uploadNota');
+    Route::post('/pengajuan/detail/{id}/upload-nota', [App\Http\Controllers\PengajuanController::class, 'uploadNota'])->name('pengajuan.uploadNota');
     // Route khusus update status oleh Admin
     Route::patch('/pengajuan/{pengajuan}/status', [PengajuanController::class, 'updateStatus'])->name('pengajuan.update-status');
     Route::get('/pengajuan/{pengajuan}/cetak', [PengajuanController::class, 'cetakPdf'])->name('pengajuan.cetak');
 });
 
 Route::get('/{slug}', [App\Http\Controllers\BarangController::class, 'showPublic'])->name('barang.show-public');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

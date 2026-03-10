@@ -72,9 +72,9 @@ public function index(Request $request)
             DB::beginTransaction();
 
             // 1. Generate Nomor Pengajuan Otomatis (Contoh: REQ-20240306-0001)
-            $today = Carbon::now()->format('Y');
+            $today = Carbon::now()->format('dmY');
             $count = Pengajuan::whereDate('created_at', Carbon::today())->count();
-            $no_pengajuan = 'INV-' . $today . '-' . str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+            $no_pengajuan = 'REQ-' . $today . '-' . str_pad($count + 1, 4, '0', STR_PAD_LEFT);
 
             // 2. Simpan Header Pengajuan
             $pengajuan = Pengajuan::create([
@@ -115,8 +115,8 @@ public function index(Request $request)
         }
     }
 
-    public function show(Pengajuan $pengajuan)
-    {
+    public function show($slug)
+    {   $pengajuan = Pengajuan::where('no_pengajuan', $slug)->firstOrFail();
         $pengajuan->load(['user', 'details', 'jenjang']);
         return view('pengajuan.show', compact('pengajuan'));
     }
@@ -138,7 +138,7 @@ public function index(Request $request)
     }
 
     public function destroy(Pengajuan $pengajuan)
-    {
+    {   
         // Pastikan hanya pemilik atau admin yang bisa hapus
         // Dan hanya bisa hapus jika status masih Pending
         if ($pengajuan->status !== 'Pending' && Auth::user()->role->slug !== 'admin') {
@@ -148,8 +148,8 @@ public function index(Request $request)
         $pengajuan->delete(); // Karena cascade, detail otomatis terhapus
         return redirect()->route('pengajuan.index')->with('success', 'Data pengajuan dihapus.');
     }
-    public function edit(Pengajuan $pengajuan)
-    {   
+    public function edit($slug)
+    {   $pengajuan = Pengajuan::where('no_pengajuan', $slug)->firstOrFail();
         $jenjangs = Jenjang::all();
         // Keamanan: Hanya pemohon yang bisa edit dan hanya jika status masih Pending
         if ($pengajuan->status !== 'Pending' && auth()->user()->role->slug !== 'admin') {
@@ -160,8 +160,8 @@ public function index(Request $request)
         return view('pengajuan.edit', compact('pengajuan', 'jenjangs'));
     }
 
-    public function update(Request $request, Pengajuan $pengajuan)
-    {
+    public function update(Request $request, $slug)
+    {   $pengajuan = Pengajuan::where('no_pengajuan', $slug)->firstOrFail();
         $request->validate(
             [
                 'nama_barang.*' => 'required',

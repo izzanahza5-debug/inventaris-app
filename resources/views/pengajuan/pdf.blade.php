@@ -1,56 +1,159 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Laporan Pengajuan - {{ $pengajuan->no_pengajuan }}</title>
     <style>
-        body { font-family: 'Helvetica', 'Arial', sans-serif; font-size: 13px; color: #333; line-height: 1.6; }
-        
-        /* Header Modern */
-        .header { text-align: left; border-bottom: 3px solid #1a3a5f; padding-bottom: 10px; margin-bottom: 25px; }
-        .header h2 { color: #1a3a5f; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-        .header p { color: #666; margin: 5px 0 0 0; font-size: 11px; }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+        }
 
-        /* Informasi Pengajuan */
-        .info-table { width: 100%; margin-bottom: 30px; }
-        .info-table td { padding: 4px 0; }
-        .label { color: #555; width: 120px; font-weight: bold; }
+        /* Header */
+        .header-table {
+            width: 100%;
+            border-bottom: 3px solid #1a3a5f;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
 
-        /* Tabel Data */
+        .header-table td { vertical-align: middle; }
+        .header-table h2 { color: #1a3a5f; margin: 0; text-transform: uppercase; font-size: 18px; }
+        .header-table p { color: #666; margin: 5px 0 0 0; font-size: 11px; }
+        .logo-header { width: 80px; height: auto; }
+        .logo-header1 { width: 90px; height: auto; }
+
+        /* Tata Letak Info (Kiri & Kanan) */
+        .info-wrapper {
+            width: 100%;
+            margin-bottom: 30px;
+            border-collapse: collapse;
+        }
+
+        .info-table {
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            padding: 2px 0;
+            vertical-align: top;
+        }
+
+        .label {
+            color: #555;
+            width: 110px; /* Lebar label kiri */
+            font-weight: bold;
+        }
+
+        .label-right {
+            color: #555;
+            width: 70px; /* Lebar label kanan */
+            font-weight: bold;
+        }
+
+        /* Tabel Data Barang */
         .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         .data-table th { background-color: #1a3a5f; color: #fff; padding: 10px; text-align: left; font-size: 12px; }
         .data-table td { border: 1px solid #e1e1e1; padding: 8px; font-size: 12px; }
         .data-table tr:nth-child(even) { background-color: #f9f9f9; }
-        
-        /* Footer/Total */
         .total-row { background-color: #eef2f7 !important; font-weight: bold; }
-        
-        /* TTD Section */
-        .date-container { text-align: right; margin-top: 40px; margin-bottom: 10px; }
-        .ttd-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .ttd-table td { width: 33.3%; text-align: center; vertical-align: top; padding-top: 20px; }
-        .signature-space { height: 80px; }
-        .name-line { font-weight: bold; text-decoration: underline; }
-        .logo {
-    float: left;
-    width: 60px; /* Sesuaikan ukuran logo */
-    height: auto;
-    margin-right: 15px;
-}
+
+        /* Metadata Cetak */
+        .print-info {
+            margin-top: 15px;
+            font-size: 10px;
+            color: #777;
+            font-style: italic;
+        }
+
+        /* Tanda Tangan */
+        .approval-block {
+            margin-top: 50px;
+            width: 100%;
+            page-break-inside: avoid;
+        }
+
+        .date-text {
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 40px;
+        }
+
+        .ttd-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ttd-table td {
+            width: 33.3%;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .ttd-title {
+            font-weight: bold;
+            margin-bottom: 60px;
+            display: block;
+        }
+
+        .ttd-name {
+            font-weight: bold;
+            display: block;
+        }
     </style>
 </head>
-<body>
-    <div class="header d-flex gap-2">
-        <img class="logo" src="{{ public_path('img/logo-alazhar.png') }}" alt="">
-        <div class="">
-            <h2>FORMULIR PENGAJUAN BARANG</h2>
-            <p>Nomor: {{ $pengajuan->no_pengajuan }} | Tanggal: {{ $pengajuan->tanggal_pengajuan->format('d/m/Y') }}</p>
-        </div>
-    </div>
 
-    <table class="info-table">
-        <tr><td class="label">Pemohon</td><td>: {{ $pengajuan->user->name }}</td></tr>
-        <tr><td class="label">Jenjang</td><td>: {{ $pengajuan->jenjang->nama_jenjang }}</td></tr>
-        <tr><td class="label">Status</td><td>: {{ $pengajuan->status }}</td></tr>
+<body>
+    <table class="header-table">
+        <tr>
+            <td width="70">
+                <img class="logo-header" src="{{ public_path('img/logo-alazhar.png') }}" alt="Logo Sekolah">
+            </td>
+            <td style="text-align: center;">
+                <h2>FORMULIR PENGAJUAN BARANG</h2>
+                <p style="margin: 0px;">Sekolah Islam Al-Azhar Pekalongan</p>
+                <p style="margin: 0px; font-size: 10px;">Jl. Pelita II, Banyurip Alit, Kec. Pekalongan Sel., Kota Pekalongan</p>
+            </td>
+            <td width="70" style="text-align: right;">
+                <img class="logo-header1" src="{{ public_path('img/sigma.png') }}" alt="Logo Yayasan">
+            </td>
+        </tr>
+    </table>
+
+    <table class="info-wrapper">
+        <tr>
+            <td width="60%">
+                <table class="info-table">
+                    <tr>
+                        <td class="label">No. Pengajuan</td>
+                        <td>: {{ $pengajuan->no_pengajuan }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Pemohon</td>
+                        <td>: {{ $pengajuan->user->name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Jenjang</td>
+                        <td>: {{ $pengajuan->jenjang->nama_jenjang }}</td>
+                    </tr>
+                </table>
+            </td>
+            
+            <td width="40%" style="vertical-align: top;">
+                <table class="info-table" style="float: right;">
+                    <tr>
+                        <td class="label-right">Status</td>
+                        <td>: <span style="text-transform: uppercase; font-weight: bold; color: #1a3a5f;">{{ $pengajuan->status }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label-right">Tanggal</td>
+                        <td>: {{ $pengajuan->created_at->timezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
     </table>
 
     <table class="data-table">
@@ -64,14 +167,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($pengajuan->details as $index => $item)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $item->nama_barang }}<br><small style="color: #777;">{{ $item->spesifikasi }}</small></td>
-                <td>{{ $item->jumlah }}</td>
-                <td>Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
-            </tr>
+            @foreach ($pengajuan->details as $index => $item)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        {{ $item->nama_barang }}<br>
+                        <small style="color: #777;">{{ $item->spesifikasi }}</small>
+                    </td>
+                    <td>{{ $item->jumlah }}</td>
+                    <td>Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                </tr>
             @endforeach
         </tbody>
         <tfoot>
@@ -82,28 +188,33 @@
         </tfoot>
     </table>
 
-    <div class="date-container">
-        Pekalongan, {{ date('d F Y') }}
+    <div class="print-info">
+        Dicetak oleh: {{ Auth::user()->name }} <br>
+        Waktu Cetak: {{ now()->timezone('Asia/Jakarta')->format('d/m/Y H:i:s') }}
     </div>
 
-    <table class="ttd-table">
-        <tr>
-            <td>
-                <p>Pemohon,</p>
-                <div class="signature-space"></div>
-                <p class="name-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-            </td>
-            <td>
-                <p>Keuangan,</p>
-                <div class="signature-space"></div>
-                <p class="name-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-            </td>
-            <td>
-                <p>Bendahara,</p>
-                <div class="signature-space"></div>
-                <p class="name-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-            </td>
-        </tr>
-    </table>
+    <div class="approval-block">
+        <div class="date-text">
+            Pekalongan, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+
+        </div>
+
+        <table class="ttd-table">
+            <tr>
+                <td>
+                    <span class="ttd-title">Pemohon,</span>
+                    <span class="ttd-name"> {{ strtoupper($pengajuan->user->name) }} </span>
+                </td>
+                <td>
+                    <span class="ttd-title">Keuangan,</span>
+                    <span class="ttd-name">( ____________________ )</span>
+                </td>
+                <td>
+                    <span class="ttd-title">Mengetahui,</span>
+                    <span class="ttd-name">( ____________________ )</span>
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

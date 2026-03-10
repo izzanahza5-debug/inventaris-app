@@ -56,7 +56,7 @@
 </style>
 
 <div class="container-fluid py-2">
-    <div class="row mb-4 align-items-center">
+    <div  class="row mb-4 align-items-center">
         <div class="col-md-8 mb-3 mb-md-0">
             <h2 class="fw-bold text-dark mb-1">
                 👋 Halo, {{ Auth::user()->name }}!
@@ -71,8 +71,18 @@
         </div>
     </div>
 
-    <div class="row g-4 mb-5">
-        <div class="col-12  col-xl-3">
+    @if(session('success'))
+        <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 d-flex align-items-center p-3" role="alert">
+            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="fw-bold text-success">{{ session('success') }}</div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <div  class="row  g-4 mb-5">
+        <div data-aos="fade-up" data-aos-duration="500" class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-blue text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Total Barang</h6>
@@ -85,7 +95,7 @@
             </div>
         </div>
 
-        <div class="col-12  col-xl-3">
+        <div data-aos="fade-up" data-aos-duration="700" class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-purple text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Kategori Barang</h6>
@@ -98,7 +108,7 @@
             </div>
         </div>
 
-        <div class="col-12  col-xl-3">
+        <div data-aos="fade-up" data-aos-duration="900" class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-teal text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Lokasi / Gedung</h6>
@@ -111,7 +121,7 @@
             </div>
         </div>
 
-        <div class="col-12  col-xl-3">
+        <div data-aos="fade-up" data-aos-duration="1100" class="col-12  col-xl-3">
             <div class="card dashboard-card bg-gradient-dark text-white shadow-sm h-100 position-relative">
                 <div class="card-body p-4">
                     <h6 class="text-uppercase fw-semibold mb-3 opacity-75">Pengguna Sistem</h6>
@@ -186,7 +196,7 @@
                 </div>
             </div>
 
-            <div class="card dashboard-card bg-white shadow-sm border-0">
+            <div  class="card dashboard-card bg-white shadow-sm border-0">
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
                     <h6 class="fw-bold mb-0 text-dark text-uppercase"><i class="fa-solid fa-bolt text-warning me-2"></i> Akses Cepat</h6>
                 </div>

@@ -17,7 +17,7 @@ class RoleController extends Controller
         if (auth()->user()->role_id !== 1) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
-        $roles = Role::orderBy('id', 'asc')->get();
+        $roles = Role::orderBy('id', 'asc')->latest()->paginate(5);
         return view('role.index', compact('roles'));
     }
 
