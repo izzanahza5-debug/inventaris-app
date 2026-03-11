@@ -123,11 +123,10 @@
                 <th width="15%" class="text-center justify-content-center">Status</th>
             </tr>
         </thead>
-        <tbody>
+<tbody>
             @php $no = 1; @endphp
             @forelse ($data as $pengajuan)
                 @php 
-                    $detailCount = $pengajuan->details->count(); 
                     // Menentukan warna status
                     $statusClass = 'text-' . strtolower($pengajuan->status);
                 @endphp
@@ -135,23 +134,34 @@
                 @foreach ($pengajuan->details as $index => $item)
                     <tr>
                         @if ($index == 0)
-                            <td rowspan="{{ $detailCount }}" class="text-center">{{ $no++ }}</td>
-                            <td rowspan="{{ $detailCount }}"><strong style="color: #1a3a5f;">{{ $pengajuan->no_pengajuan }}</strong></td>
-                            <td rowspan="{{ $detailCount }}">{{ $pengajuan->created_at->format('d/m/Y') }}</td>
-                            <td rowspan="{{ $detailCount }}">{{ $pengajuan->user->name }}</td>
+                            <td class="text-center" style="vertical-align: top;">{{ $no++ }}</td>
+                            <td style="vertical-align: top;"><strong style="color: #1a3a5f;">{{ $pengajuan->no_pengajuan }}</strong></td>
+                            <td style="vertical-align: top;">{{ $pengajuan->created_at->format('d/m/Y') }}</td>
+                            <td style="vertical-align: top;">{{ $pengajuan->user->name }}</td>
+                        @else
+                            <td style="border-top: none; border-bottom: none;"></td>
+                            <td style="border-top: none; border-bottom: none;"></td>
+                            <td style="border-top: none; border-bottom: none;"></td>
+                            <td style="border-top: none; border-bottom: none;"></td>
                         @endif
                         
-                        <td>{{ $item->nama_barang }}</td>
-                        <td class="text-center">{{ $item->jumlah }}</td>
-                        <td>Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
+                        <td style="vertical-align: top;">{{ $item->nama_barang }}</td>
+                        <td class="text-center" style="vertical-align: top;">{{ $item->jumlah }}</td>
+                        <td style="vertical-align: top;">Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
                         
                         @if ($index == 0)
-                            <td rowspan="{{ $detailCount }}" class="text-center">
+                            <td class="text-center" style="vertical-align: top;">
                                 <span class="status-text {{ $statusClass }}">{{ $pengajuan->status }}</span>
                             </td>
+                        @else
+                            <td style="border-top: none; border-bottom: none;"></td>
                         @endif
                     </tr>
                 @endforeach
+                
+                <tr>
+                    <td colspan="8" style="border-top: 2px solid #1a3a5f; padding: 0;"></td>
+                </tr>
             @empty
                 <tr>
                     <td colspan="8" class="text-center" style="padding: 20px;">Tidak ada data pengajuan pada rentang filter ini.</td>
