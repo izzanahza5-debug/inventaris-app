@@ -76,6 +76,7 @@ public function index(Request $request)
                 'jumlah.*' => 'required|numeric|min:1',
                 'harga_satuan.*' => 'required|numeric|min:0',
                 'jenjang_id' => 'required|exists:jenjangs,id',
+                'keterangan.*' => 'required',
             ],
             [
                 'jenjang_id.required' => 'Jenjang wajib diisi!',
@@ -222,7 +223,8 @@ public function index(Request $request)
             return redirect()->route('pengajuan.index')->with('success', 'Pengajuan berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+            \Log::error('Pengajuan update error: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan sistem. Silakan coba lagi.');
         }
     }
 

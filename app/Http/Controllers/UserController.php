@@ -42,7 +42,10 @@ class UserController extends Controller
     }
 
     public function edit($slug)
-    {
+    {   
+        if (auth()->user()->role_id !== 1) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $user = User::where('name', $slug)->firstOrFail();
         $role = Role::get();
 
