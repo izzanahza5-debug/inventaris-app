@@ -164,6 +164,7 @@
                 <th width="10%">Qty</th>
                 <th width="20%">Harga</th>
                 <th width="20%">Subtotal</th>
+                <th width="20%">Keterangan</th>
             </tr>
         </thead>
         <tbody>
@@ -177,12 +178,13 @@
                     <td>{{ $item->jumlah }}</td>
                     <td>Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                    <td>{{ $item->keterangan }}</td>
                 </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr class="total-row">
-                <td colspan="4" style="text-align: right; padding: 10px;">TOTAL</td>
+                <td colspan="5" style="text-align: right; padding: 10px;">TOTAL</td>
                 <td style="padding: 10px;">Rp {{ number_format($pengajuan->total_biaya, 0, ',', '.') }}</td>
             </tr>
         </tfoot>

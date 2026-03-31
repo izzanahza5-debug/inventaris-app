@@ -114,16 +114,18 @@
         <thead>
             <tr>
                 <th width="3%" class="text-center">No</th>
-                <th width="15%">No. Pengajuan</th>
-                <th width="10%">Tanggal</th>
-                <th width="15%">Pemohon</th>
-                <th width="22%">Nama Barang</th>
+                <th width="13%">No. Pengajuan</th>
+                <th width="8%">Tanggal</th>
+                <th width="12%">Pemohon</th>
+                <th width="18%">Nama Barang</th>
                 <th width="5%" class="text-center">Qty</th>
-                <th width="15%">Harga Satuan</th>
-                <th width="15%" class="text-center justify-content-center">Status</th>
+                <th width="13%">Harga Satuan</th>
+                <th width="15%">Subtotal</th>
+                <th width="15%">Keterangan</th>
+                <th width="13%" class="text-center justify-content-center">Status</th>
             </tr>
         </thead>
-<tbody>
+        <tbody>
             @php $no = 1; @endphp
             @forelse ($data as $pengajuan)
                 @php 
@@ -148,6 +150,8 @@
                         <td style="vertical-align: top;">{{ $item->nama_barang }}</td>
                         <td class="text-center" style="vertical-align: top;">{{ $item->jumlah }}</td>
                         <td style="vertical-align: top;">Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
+                        <td style="vertical-align: top;">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                        <td style="vertical-align: top;">{{ $item->keterangan }}</td>
                         
                         @if ($index == 0)
                             <td class="text-center" style="vertical-align: top;">
@@ -160,14 +164,20 @@
                 @endforeach
                 
                 <tr>
-                    <td colspan="8" style="border-top: 2px solid #1a3a5f; padding: 0;"></td>
+                    <td colspan="9" style="border-top: 2px solid #1a3a5f; padding: 0;"></td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-center" style="padding: 20px;">Tidak ada data pengajuan pada rentang filter ini.</td>
+                    <td colspan="9" class="text-center" style="padding: 20px;">Tidak ada data pengajuan pada rentang filter ini.</td>
                 </tr>
             @endforelse
         </tbody>
+        <tfoot>
+            <tr class="total">
+                <td colspan="9" style="text-align: right; padding: 10px;">TOTAL</td>
+                <td style="padding: 10px;">Rp {{ number_format($data->sum('total_biaya'), 0, ',', '.') }}</td>
+            </tr>
+        </tfoot>
     </table>
 
     <div>

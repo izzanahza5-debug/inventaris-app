@@ -49,6 +49,14 @@
                 width: 100%;
             }
          }
+         
+        /* Efek hover untuk tombol tambah item baru */
+        #add-item:hover {
+            background: linear-gradient(45deg, #0d6efd, #0043a8) !important;
+            transform: translateY(-2px);
+            border: none !important;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.15);
+        }
     </style>
 
     <div class="container-fluid px-4">
@@ -77,9 +85,6 @@
                         <div class="d-flex justify-content-between flex-wrap gap-2 align-items-center mb-4">
                             <h5 class="fw-bold mb-0"><i class="fa-solid fa-list-check me-2 text-primary"></i> Daftar Barang
                             </h5>
-                            <button type="button" class="btn back btn-sm total-card fw-semibold py-2 rounded-pill px-3" id="add-item">
-                                <i class="fa-solid fa-plus me-1"></i> Tambah Item
-                            </button>
                         </div>
 
                         <div id="item-container">
@@ -110,6 +115,12 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-outline-primary w-100 py-3 fw-bold rounded-3" id="add-item" style="border: 2px dashed #0d6efd; background-color: #f8fbff; transition: all 0.3s ease;">
+                                <i class="fa-solid fa-plus me-2"></i> Tambah Item Baru
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -225,6 +236,9 @@
                 </div>
             `;
                 container.appendChild(newRow);
+                
+                // Fokus otomatis ke input nama barang yang baru ditambahkan
+                newRow.querySelector('input[name="nama_barang[]"]').focus();
             });
 
             // Hapus Baris
